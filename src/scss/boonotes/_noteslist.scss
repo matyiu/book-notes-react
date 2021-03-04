@@ -1,0 +1,46 @@
+.notesList {
+    padding-bottom: 30px;
+
+    .note {
+        margin-bottom: 25px;
+        padding: 10px 15px;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        width: 100%;
+        cursor: pointer;
+        transition: background 0.2s ease-out;
+
+        &:hover {
+            background: #F5E9E3;
+        }
+
+        h2 {
+            margin-right: auto;
+            font-size: 1.5rem;
+            line-height: 2rem;
+        }
+
+        .note-metadata {
+            display: flex;
+            flex-flow: wrap;
+            align-items: center;
+            margin-right: (75px - (35px / 2));
+            margin-left: -(35px / 2);
+
+            .tag {
+                display: inline-block;
+                margin: 0 (35px / 2);
+            }
+        }
+
+        .note-action {
+            font-size: 1.25rem;
+            height: 100%;
+            padding-right: 5px;
+            padding-left: 5px;
+            margin: 0;
+            color: $danger;
+        }
+    }
+}

@@ -13,10 +13,12 @@ export const Navbar = () => {
                         <B4Navbar.Toggle aria-controls="navbar-nav" />
                         <B4Navbar.Collapse id="navbar-nav" className="justify-content-end">
                             <Form inline>
-                                <InputGroup>
+                                <InputGroup className="search-box">
                                     <FormControl type="text" placeholder="Search" />
                                     <InputGroup.Append>
-                                        <Button variant="outline-success">Search</Button>
+                                        <Button variant="secondary">
+                                            <i className="fas fa-search"></i>
+                                        </Button>
                                     </InputGroup.Append>
                                 </InputGroup>
                             </Form>

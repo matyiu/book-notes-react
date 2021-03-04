@@ -1,1 +1,18 @@
-@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+@import "./bootstrap/variables";
+
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/input-group";
+@import "~bootstrap/scss/navbar";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/utilities";
+
+@import "./bootstrap/buttons";
+@import "./bootstrap/navbar";
