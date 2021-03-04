@@ -15,7 +15,9 @@ export const NotesList = () => {
                         <div className="tag">{note.category}</div>
                         <div className="tag">{note.author}</div>
                     </div>
-                    <Button className="note-action"><i className="fas fa-trash"></i></Button>
+                    <Button className="note-action" variant="link">
+                        <i className="fas fa-trash"></i>
+                    </Button>
                 </article>
             </Col>
         )
