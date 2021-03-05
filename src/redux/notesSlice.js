@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = [
     {
@@ -22,7 +22,28 @@ const initialState = [
 const notesSlice = createSlice({
     name: 'notes',
     initialState,
-    reducers: {}
+    reducers: {
+        noteAdded: {
+            reducer(state, action) {
+                state = state.concat([action.payload]);
+                return state;
+            },
+            prepare(name, author, category, state) {
+                return {
+                    payload: {
+                        id: nanoid(),
+                        notes: '',
+                        name,
+                        author,
+                        category,
+                        state,
+                    }
+                };
+            }
+        }
+    }
 });
 
 export default notesSlice.reducer;
+
+export const { noteAdded } = notesSlice.actions;
