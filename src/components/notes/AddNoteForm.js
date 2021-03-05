@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Col } from "react-bootstrap";
 import { useDispatch } from 'react-redux';
 import { noteAdded } from '../../redux/notesSlice';
 
@@ -41,25 +41,29 @@ export const AddNoteForm = (props) => {
     const handleClose = () => setShow(false);
 
     return (
-        <div className="addNoteForm">
-            <Modal 
-                size="lg" 
-                show={show} 
-                onHide={handleClose} 
-                onExited={callbackClose}
-                dialogClassName="bg-light"
-                className="addNoteForm"
-            >
-                <Modal.Header>
-                    <Modal.Title>Add a new book notes</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group controlId="addNoteFormName">
-                            <Form.Label>Book Name</Form.Label>
-                            <Form.Control type="text" onChange={handleNameChange}></Form.Control>
-                        </Form.Group>
-                        <Form.Row>
+        <Modal 
+            size="lg" 
+            show={show} 
+            onHide={handleClose} 
+            onExited={callbackClose}
+            dialogClassName="bg-light"
+            className="addNoteForm"
+        >
+            <Modal.Header>
+                <Modal.Title>Add a new book notes</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Row>
+                        <Col>
+                            <Form.Group controlId="addNoteFormName">
+                                <Form.Label>Book Name</Form.Label>
+                                <Form.Control type="text" onChange={handleNameChange}></Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Form.Row>
+                    <Form.Row>
+                        <Col className="d-flex flex-wrap">
                             <Form.Group controlId="addNoteFormAuthor">
                                 <Form.Label>Author</Form.Label>
                                 <Form.Control as="select" onChange={handleAuthorChange}>
@@ -71,7 +75,7 @@ export const AddNoteForm = (props) => {
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group controlId="addNoteFormCategory">
-                                <Form.Label>Author</Form.Label>
+                                <Form.Label>Category</Form.Label>
                                 <Form.Control as="select" onChange={handleCategoryChange}>
                                     <option></option>
                                     <option>Productivity</option>
@@ -80,27 +84,31 @@ export const AddNoteForm = (props) => {
                                     <option>Fantasy</option>
                                 </Form.Control>
                             </Form.Group>
-                        </Form.Row>
-                        <Form.Group controlId="addNoteFormState">
-                            <Form.Label>State</Form.Label>
-                            <Form.Control as="select" onChange={handleStateChange}>
-                                <option></option>
-                                <option>Read</option>
-                                <option>Reading</option>
-                                <option>To Read</option>
-                            </Form.Control>
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer className="justify-content-start">
-                    <Button variant="primary" onClick={handleCreateNote}>
-                        Create Note
-                    </Button>
-                    <Button variant="outline-primary" onClick={handleClose}>
-                        Cancel
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
+                        </Col>
+                    </Form.Row>
+                    <Form.Row>
+                        <Col>
+                            <Form.Group controlId="addNoteFormState">
+                                <Form.Label>State</Form.Label>
+                                <Form.Control as="select" onChange={handleStateChange}>
+                                    <option></option>
+                                    <option>Read</option>
+                                    <option>Reading</option>
+                                    <option>To Read</option>
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Form.Row>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer className="justify-content-start">
+                <Button variant="primary" onClick={handleCreateNote}>
+                    Create Note
+                </Button>
+                <Button variant="outline-primary" onClick={handleClose}>
+                    Cancel
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 };
