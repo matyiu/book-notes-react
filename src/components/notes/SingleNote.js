@@ -28,7 +28,7 @@ export const SingleNote = () => {
                 <Link to="/" className="back"><i className="fas fa-arrow-left"></i>Back</Link>
                 <Form>
                     <Form.Row className="singleNote-header">
-                        <Col class="col d-flex justify-content-between">
+                        <Col className="d-flex justify-content-between">
                             <Form.Control 
                                 className="singleNote-name" 
                                 type="text" 
