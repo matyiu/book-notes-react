@@ -1,0 +1,41 @@
+.addNoteForm {
+    .modal-header {
+        font-size: 1.75rem;
+        font-weight: bold;
+        margin-bottom: -10px;
+    }
+
+    form {
+        margin: 0 -15px;
+        
+        .form-group {
+            margin: 0 15px;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-size: 1.5rem;
+            color: $heading-color;
+            margin-bottom: 5px;
+            line-height: 1.625rem;
+        }
+
+        .form-control {
+            width: auto;
+            min-width: 210px;
+        }
+    }
+
+    .modal-body {
+        padding-bottom: 0;
+    }
+
+    .modal-footer {
+        padding-top: 0;
+        margin-top: 10px;
+    }
+}
+
+#addNoteFormName {
+    width: 100%;
+}

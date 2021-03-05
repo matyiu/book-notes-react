@@ -47,6 +47,8 @@ export const AddNoteForm = (props) => {
                 show={show} 
                 onHide={handleClose} 
                 onExited={callbackClose}
+                dialogClassName="bg-light"
+                className="addNoteForm"
             >
                 <Modal.Header>
                     <Modal.Title>Add a new book notes</Modal.Title>
