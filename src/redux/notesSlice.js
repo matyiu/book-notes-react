@@ -44,6 +44,10 @@ const notesSlice = createSlice({
     }
 });
 
+
 export default notesSlice.reducer;
 
 export const { noteAdded } = notesSlice.actions;
+
+export const selectNoteById = (state, noteId) => 
+    state.notes.find(note => note.id === noteId)
