@@ -25,17 +25,19 @@ export const SingleNote = () => {
     return (
         <div className="singleNote">
             <Container>
-                <Link to="/"><i className="fas fa-arrow-left"></i>Back</Link>
+                <Link to="/" className="back"><i className="fas fa-arrow-left"></i>Back</Link>
                 <Form>
-                    <Form.Row>
+                    <Form.Row className="singleNote-header">
                         <Col>
-                            <Form.Group controlId="addNoteFormName">
-                                <Form.Label>Book Name</Form.Label>
-                                <Form.Control type="text" onChange={handleNameChange} value={name}></Form.Control>
-                            </Form.Group>
+                            <Form.Control 
+                                className="singleNote-name" 
+                                type="text" 
+                                onChange={handleNameChange} 
+                                value={name}
+                            ></Form.Control>
                         </Col>
                     </Form.Row>
-                    <Form.Row>
+                    <Form.Row className="singleNote-options">
                         <Col className="d-flex flex-wrap">
                             <Form.Group controlId="addNoteFormAuthor">
                                 <Form.Label>Author</Form.Label>
@@ -57,7 +59,7 @@ export const SingleNote = () => {
                                     <option>Fantasy</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group controlId="addNoteFormState">
+                            <Form.Group className="singleNote-state" controlId="addNoteFormState">
                                 <Form.Label>State</Form.Label>
                                 <Form.Control as="select" onChange={handleStateChange} value={state}>
                                     <option></option>
