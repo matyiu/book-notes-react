@@ -6,3 +6,16 @@ body {
 h1, h2, h3, h4, h5, h6 {
     color: $heading-color;
 }
+
+.note-action {
+    font-size: 1.25rem;
+    padding: 13px 5px;
+    margin: 0;
+    color: $danger;
+    background: none;
+
+    &:hover {
+        background: none;
+        color: darken($color: $danger, $amount: 12%);
+    }
+}

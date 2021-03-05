@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Container, Form } from 'react-bootstrap';
+import { Button, Col, Container, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { selectNoteById } from '../../redux/notesSlice';
@@ -28,13 +28,14 @@ export const SingleNote = () => {
                 <Link to="/" className="back"><i className="fas fa-arrow-left"></i>Back</Link>
                 <Form>
                     <Form.Row className="singleNote-header">
-                        <Col>
+                        <Col class="col d-flex justify-content-between">
                             <Form.Control 
                                 className="singleNote-name" 
                                 type="text" 
                                 onChange={handleNameChange} 
                                 value={name}
                             ></Form.Control>
+                            <Button variant="link" className="note-action"><i className="fas fa-trash"></i></Button>
                         </Col>
                     </Form.Row>
                     <Form.Row className="singleNote-options">
