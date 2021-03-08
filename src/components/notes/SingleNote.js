@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Button, Col, Container, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { noteUpdated, selectNoteById } from '../../redux/notesSlice';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { noteUpdated, selectNoteById, noteDeleted } from '../../redux/notesSlice';
 import { authorAdded, categoryAdded, selectAllAuthors, selectAllCategories } from '../../redux/tagsSlice';
 import { Select } from '../inputs/Select';
 import { TinyMceWrapper } from '../TinyMCE';
 
 export const SingleNote = () => {
+    // React Router Dom
     const { bookId } = useParams();
+    const history = useHistory();
 
     // Redux
     const dispatch = useDispatch();
@@ -60,7 +62,11 @@ export const SingleNote = () => {
             id: bookId,
             changes: {notes: content}
         }));
-    }
+    };
+    const handleRemoveClick = () => {
+        dispatch(noteDeleted(bookId));
+        history.push('/');
+    };
 
     // Redux handlers
     const createAuthorTag = (content) => dispatch(authorAdded(content));
@@ -79,7 +85,13 @@ export const SingleNote = () => {
                                 onChange={handleNameChange} 
                                 value={name}
                             ></Form.Control>
-                            <Button variant="link" className="note-action"><i className="fas fa-trash"></i></Button>
+                            <Button 
+                                variant="link" 
+                                className="note-action"
+                                onClick={handleRemoveClick}
+                            >
+                                <i className="fas fa-trash"></i>
+                            </Button>
                         </Col>
                     </Form.Row>
                     <Form.Row className="singleNote-options">

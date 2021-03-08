@@ -51,6 +51,11 @@ const notesSlice = createSlice({
                     ...changes
                 };
             }
+        },
+        noteDeleted(state, action) {
+            const id = action.payload;
+            state = state.filter(note => note.id !== id);
+            return state;
         }
     }
 });
@@ -58,7 +63,7 @@ const notesSlice = createSlice({
 
 export default notesSlice.reducer;
 
-export const { noteAdded, noteUpdated } = notesSlice.actions;
+export const { noteAdded, noteUpdated, noteDeleted } = notesSlice.actions;
 
 export const selectNoteById = (state, noteId) => 
     state.notes.find(note => note.id === noteId)
