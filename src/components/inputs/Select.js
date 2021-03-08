@@ -23,6 +23,7 @@ export const Select = (props) => {
     }
     const [ searchText, setSearchText ] = useState(inputValue);
     const [ create, setCreate ] = useState(false);
+    const [ filter, setFilter ] = useState(false);
 
     // Helper functions
     const selectFireChangeEvt = (value) => {
@@ -46,6 +47,8 @@ export const Select = (props) => {
         handleClickOpen();
         setSearchText(option.content);
         setCreate(false);
+        setFilteredOptions(options);
+        setFilter(false);
 
         selectFireChangeEvt(optionValue);
     }
@@ -55,10 +58,12 @@ export const Select = (props) => {
         setFilteredOptions(filterOptions(search));
         setSearchText(search);
         setCreate(true);
+        setFilter(true);
     }
 
     const handleCreateOption = () => {
         setCreate(false);
+        setFilter(true);
         createHandler(searchText);
 
         customSelectRef.current.querySelector('input[type="text"]').focus();
@@ -88,6 +93,12 @@ export const Select = (props) => {
         const handleClickOutside = (e) => {
             if (customSelectRef.current && !customSelectRef.current.contains(e.target)) {
                 setOpen(false);
+                setCreate(false);
+                setFilter(false);
+                setFilteredOptions(options);
+
+                const currentOption = options.find(option => (option.value || option.content) === value);
+                setSearchText(currentOption.content);
             }
         }
 
@@ -98,10 +109,14 @@ export const Select = (props) => {
 
     // Update filteredOptions when props options changes
     useEffect(() => {
-        setFilteredOptions(options.filter(option =>
-            option.content.startsWith(searchText)
-        ));
-    }, [options, searchText]);
+        if (filter) {
+            setFilter(false);
+            setFilteredOptions(options.filter(option =>
+                option.content.startsWith(searchText)
+            ));
+        }
+
+    }, [options, searchText, filter]);
 
     return (
         <div className="select" data-open={open} ref={customSelectRef}>
