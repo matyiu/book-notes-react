@@ -1,0 +1,83 @@
+.select {
+    width: 100%;
+    position: relative;
+
+    &[data-open="true"] {
+        .select-options-wrapper {
+            display: block;
+        }
+    }
+
+    .select-hidden {
+        display: none;
+    }
+
+    .select-input {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        input {
+            @extend .form-control;
+
+            &[readonly] {
+                background: transparent;
+            }
+        }
+
+        i.fas {
+            position: absolute;
+            right: 15px;
+            z-index: -1;
+        }
+    }
+
+    .select-options-wrapper {
+        position: absolute;
+        top: 100%;
+        margin-top: 23px;
+        width: 100%;
+        z-index: 100;
+        display: none;
+    }
+
+    .select-options {
+        position: relative;
+        background: $white;
+        width: 100%;
+        padding: 10px;
+        box-shadow: 0 0 11px rgba($color: #A48678, $alpha: 0.4);
+
+        &::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border: 12px solid transparent;
+            border-bottom-color: $white;
+            position: absolute;
+            bottom: 100%;
+            right: 9px;
+        }
+
+        &::before {
+            content: "";
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            transform: rotate(45deg);
+            bottom: calc(100% - 18px);
+            right: 9px;
+            box-shadow: 0 0 11px rgba($color: #A48678, $alpha: 0.4);
+            z-index: -1;
+        }
+
+        .select-option {
+            transition: all 0.1s ease-out;
+
+            &:hover {
+                background: $secondary;
+                color: $white;
+            }
+        }
+    }
+}

@@ -3,6 +3,7 @@ import { Button, Col, Container, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { selectNoteById } from '../../redux/notesSlice';
+import { Select } from '../inputs/Select';
 import { TinyMceWrapper } from '../TinyMCE';
 
 export const SingleNote = () => {
@@ -42,32 +43,29 @@ export const SingleNote = () => {
                         <Col className="d-flex flex-wrap">
                             <Form.Group controlId="addNoteFormAuthor">
                                 <Form.Label>Author</Form.Label>
-                                <Form.Control as="select" onChange={handleAuthorChange} value={author}>
-                                    <option></option>
-                                    <option>David Goggins</option>
-                                    <option>Cal Newport</option>
-                                    <option>Grant Cardone</option>
-                                    <option>JK Rowling</option>
-                                </Form.Control>
+                                <Select onChange={handleAuthorChange} value={author} options={[
+                                    {content: 'David Goggins'},
+                                    {content: 'Cal Newport'},
+                                    {content: 'Grant Cardone'},
+                                    {content: 'JK Rowling'},
+                                ]} />
                             </Form.Group>
                             <Form.Group controlId="addNoteFormCategory">
                                 <Form.Label>Category</Form.Label>
-                                <Form.Control as="select" onChange={handleCategoryChange} value={category}>
-                                    <option></option>
-                                    <option>Productivity</option>
-                                    <option>Autobiography</option>
-                                    <option>Personal development</option>
-                                    <option>Fantasy</option>
-                                </Form.Control>
+                                <Select onChange={handleCategoryChange} value={category} options={[
+                                    {content: 'Productivity'},
+                                    {content: 'Autobiography'},
+                                    {content: 'Personal development'},
+                                    {content: 'Fantasy'},
+                                ]} />
                             </Form.Group>
                             <Form.Group className="singleNote-state" controlId="addNoteFormState">
                                 <Form.Label>State</Form.Label>
-                                <Form.Control as="select" onChange={handleStateChange} value={state}>
-                                    <option></option>
-                                    <option>Read</option>
-                                    <option>Reading</option>
-                                    <option>To Read</option>
-                                </Form.Control>
+                                <Select onChange={handleStateChange} value={state} options={[
+                                    {content: 'Read'},
+                                    {content: 'Reading'},
+                                    {content: 'To Read'},
+                                ]} />
                             </Form.Group>
                         </Col>
                     </Form.Row>
