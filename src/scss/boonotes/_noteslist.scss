@@ -1,6 +1,11 @@
 .notesList {
     padding-bottom: 30px;
 
+    a {
+        text-decoration: none;
+        color: $text;
+    }
+
     .note {
         margin-bottom: 25px;
         padding: 10px 15px;
@@ -16,6 +21,7 @@
         }
 
         h2 {
+            margin: 0;
             margin-right: auto;
             font-size: 1.5rem;
             line-height: 2rem;
