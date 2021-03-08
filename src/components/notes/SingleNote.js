@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { Button, Col, Container, Form } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { selectNoteById } from '../../redux/notesSlice';
+import { authorAdded, categoryAdded, selectAllAuthors, selectAllCategories } from '../../redux/tagsSlice';
 import { Select } from '../inputs/Select';
 import { TinyMceWrapper } from '../TinyMCE';
 
 export const SingleNote = () => {
     const { bookId } = useParams();
 
+    // Redux
+    const dispatch = useDispatch();
+
+    // Redux selectors
     const note = useSelector(state => selectNoteById(state, bookId));
+    const authors = useSelector(selectAllAuthors);
+    const categories = useSelector(selectAllCategories);
 
     // Form state
     const [ name, setName ] = useState(note.name);
@@ -22,6 +29,10 @@ export const SingleNote = () => {
     const handleAuthorChange = e => setAuthor(e.target.value);
     const handleCategoryChange = e => setCategory(e.target.value);
     const handleStateChange = e => setState(e.target.value);
+
+    // Redux handlers
+    const createAuthorTag = (content) => dispatch(authorAdded(content));
+    const createCategoryTag = (content) => dispatch(categoryAdded(content));
 
     return (
         <div className="singleNote">
@@ -46,13 +57,9 @@ export const SingleNote = () => {
                                 <Select 
                                     onChange={handleAuthorChange} 
                                     value={author} 
-                                    options={[
-                                        {content: 'David Goggins'},
-                                        {content: 'Cal Newport'},
-                                        {content: 'Grant Cardone'},
-                                        {content: 'JK Rowling'},
-                                    ]} 
+                                    options={authors} 
                                     read={false}
+                                    createHandler={createAuthorTag}
                                 />
                             </Form.Group>
                             <Form.Group controlId="addNoteFormCategory">
@@ -60,13 +67,9 @@ export const SingleNote = () => {
                                 <Select 
                                     onChange={handleCategoryChange} 
                                     value={category} 
-                                    options={[
-                                        {content: 'Productivity'},
-                                        {content: 'Autobiography'},
-                                        {content: 'Personal development'},
-                                        {content: 'Fantasy'},
-                                    ]} 
+                                    options={categories} 
                                     read={false}
+                                    createHandler={createCategoryTag}
                                 />
                             </Form.Group>
                             <Form.Group className="singleNote-state" controlId="addNoteFormState">
