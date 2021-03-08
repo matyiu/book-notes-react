@@ -4,8 +4,10 @@ import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { selectAllAuthors, selectAllCategories } from '../../redux/tagsSlice';
 
-export const NotesList = () => {
-    const notes = useSelector(status => status.notes);
+export const NotesList = (props) => {
+    const { notes } = props;
+
+    // Redux Selectors
     const authors = useSelector(selectAllAuthors);
     const categories = useSelector(selectAllCategories);
 

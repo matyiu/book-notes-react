@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar as B4Navbar, Form, FormControl, Button, Container, Row, Col, InputGroup } from "react-bootstrap";
 
-export const Navbar = () => {
+export const Navbar = ({ onSearch }) => {
     return (
         <B4Navbar bg="light" expand="lg">
             <Container>
@@ -14,7 +14,7 @@ export const Navbar = () => {
                         <B4Navbar.Collapse id="navbar-nav" className="justify-content-end">
                             <Form inline>
                                 <InputGroup className="search-box">
-                                    <FormControl type="text" placeholder="Search" />
+                                    <FormControl type="text" placeholder="Search" onChange={onSearch} />
                                     <InputGroup.Append>
                                         <Button variant="secondary">
                                             <i className="fas fa-search"></i>
