@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 export const Select = (props) => {
-    const { options, value, onChange } = props; // Props
+    const { options, value, onChange, read } = props; // Props
 
     // Refs
     const selectRef = useRef(null);
@@ -9,6 +9,8 @@ export const Select = (props) => {
 
     // States
     const [ open, setOpen ] = useState(false);
+    const [ filteredOptions, setFilteredOptions ] = useState(options);
+    const [ searchText, setSearchText ] = useState(value);
 
     // Event handlers
     const handleClickOpen = () => setOpen(prevOpen => !prevOpen)
@@ -16,6 +18,7 @@ export const Select = (props) => {
     const handleOptionChange = (e, option) => {
         const optionValue = option.value || option.content;
         handleClickOpen();
+        setSearchText(optionValue);
 
         // Change select value firing change event
         const selectValueSetter = Object.getOwnPropertyDescriptor(window.HTMLSelectElement.prototype, 'value').set;
@@ -23,8 +26,16 @@ export const Select = (props) => {
         selectRef.current.dispatchEvent(new Event('change', { bubbles: true }));
     }
 
+    const handleSearchChange = (e) => {
+        const search = e.target.value;
+        setFilteredOptions(options.filter(option =>
+            option.content.startsWith(search)
+        ));
+        setSearchText(search);
+    }
+
     // Custom Select Options
-    const renderedOptions = options.map(option =>
+    const renderedOptions = filteredOptions.map(option =>
         <div 
             onClick={(e) => handleOptionChange(e, option)} 
             className="select-option"
@@ -62,7 +73,11 @@ export const Select = (props) => {
                 </select>
             </div>
             <div className="select-input" onClick={handleClickOpen}>
-                <input type="text" value={value} readOnly />
+                <input type="text" 
+                    value={searchText} 
+                    readOnly={(typeof read === 'undefined') ? true : read } 
+                    onChange={handleSearchChange} 
+                />
                 <i className="fas fa-angle-down"></i>
             </div>
             <div className="select-options-wrapper">

@@ -43,21 +43,31 @@ export const SingleNote = () => {
                         <Col className="d-flex flex-wrap">
                             <Form.Group controlId="addNoteFormAuthor">
                                 <Form.Label>Author</Form.Label>
-                                <Select onChange={handleAuthorChange} value={author} options={[
-                                    {content: 'David Goggins'},
-                                    {content: 'Cal Newport'},
-                                    {content: 'Grant Cardone'},
-                                    {content: 'JK Rowling'},
-                                ]} />
+                                <Select 
+                                    onChange={handleAuthorChange} 
+                                    value={author} 
+                                    options={[
+                                        {content: 'David Goggins'},
+                                        {content: 'Cal Newport'},
+                                        {content: 'Grant Cardone'},
+                                        {content: 'JK Rowling'},
+                                    ]} 
+                                    read={false}
+                                />
                             </Form.Group>
                             <Form.Group controlId="addNoteFormCategory">
                                 <Form.Label>Category</Form.Label>
-                                <Select onChange={handleCategoryChange} value={category} options={[
-                                    {content: 'Productivity'},
-                                    {content: 'Autobiography'},
-                                    {content: 'Personal development'},
-                                    {content: 'Fantasy'},
-                                ]} />
+                                <Select 
+                                    onChange={handleCategoryChange} 
+                                    value={category} 
+                                    options={[
+                                        {content: 'Productivity'},
+                                        {content: 'Autobiography'},
+                                        {content: 'Personal development'},
+                                        {content: 'Fantasy'},
+                                    ]} 
+                                    read={false}
+                                />
                             </Form.Group>
                             <Form.Group className="singleNote-state" controlId="addNoteFormState">
                                 <Form.Label>State</Form.Label>
