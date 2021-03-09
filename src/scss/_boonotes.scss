@@ -1,5 +1,8 @@
 @import "./boonotes/variables";
 
+// Placeholders
+@import "./boonotes/placeholders/dialog";
+
 @import "./boonotes/core";
 @import "./boonotes/navbar";
 @import "./boonotes/toolbar";
@@ -8,3 +11,4 @@
 @import "./boonotes/noteslist";
 @import "./boonotes/singlenote";
 @import "./boonotes/select";
+@import "./boonotes/buttondialog";

@@ -7,7 +7,8 @@ const initialState = [
         author: '1',
         category: '2',
         state: 'Read',
-        notes: '<p>Note 1 with <strong>bold</strong> text<p>'
+        notes: '<p>Note 1 with <strong>bold</strong> text<p>',
+        created: new Date("2021-03-09"),
     },
     {
         id: '2',
@@ -15,7 +16,8 @@ const initialState = [
         author: '2',
         category: '1',
         state: 'Read',
-        notes: '<p>Note 2 with <em>italic</em> text<p>'
+        notes: '<p>Note 2 with <em>italic</em> text<p>',
+        created: new Date("2021-03-08"),
     }
 ]
 
@@ -32,6 +34,7 @@ const notesSlice = createSlice({
                 return {
                     payload: {
                         id: nanoid(),
+                        created: new Date(),
                         notes: '',
                         name,
                         author,

@@ -1,0 +1,13 @@
+.button-dialog-wrapper {
+    @extend %dialog;
+    right: 0;
+    max-width: 546px;
+
+    .button-dialog {
+        padding: 30px;
+    }
+
+    .select {
+        max-width: 225px;
+    }
+}

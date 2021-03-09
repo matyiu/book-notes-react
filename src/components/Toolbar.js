@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Container, Row, Button, Col } from 'react-bootstrap';
+import { FilterNotes } from './inputs/FilterNotes';
 import { AddNoteForm } from './notes/AddNoteForm';
 
-export const Toolbar = () => {
+export const Toolbar = (props) => {
+    const { onOrder } = props;
+
     const [ openForm, setOpenForm ] = useState(false);
 
     const handleClosedCreateForm = () => setOpenForm(false);
@@ -14,7 +17,7 @@ export const Toolbar = () => {
                 <Row>
                     <Col className="d-flex">
                         <Button className="mr-auto" onClick={handleCreateForm}>Create Note</Button>
-                        <Button variant="outline-primary">Filter</Button> {/* TODO: Filter component */}
+                        <FilterNotes onOrder={onOrder} />
                     </Col>
                 </Row>
             </Container>
