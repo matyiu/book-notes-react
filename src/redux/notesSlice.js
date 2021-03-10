@@ -1,25 +1,7 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { loadData } from "../app/localStorage";
 
-const initialState = [
-    {
-        id: '1',
-        name: 'Can\'t Hurt Me',
-        author: '1',
-        category: '2',
-        state: 'Read',
-        notes: '<p>Note 1 with <strong>bold</strong> text<p>',
-        created: new Date("2021-03-09"),
-    },
-    {
-        id: '2',
-        name: 'Deep Work',
-        author: '2',
-        category: '1',
-        state: 'Read',
-        notes: '<p>Note 2 with <em>italic</em> text<p>',
-        created: new Date("2021-03-08"),
-    }
-]
+const initialState = loadData('boonote.notes') || [];
 
 const notesSlice = createSlice({
     name: 'notes',

@@ -1,43 +1,7 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { loadData } from "../app/localStorage";
 
-const initialState = {
-    category: [
-        {
-            value: '1',
-            content: 'Productivity'
-        },
-        {
-            value: '2',
-            content: 'Autobiography'
-        },
-        {
-            value: '3',
-            content: 'Personal development'
-        },
-        {
-            value: '4',
-            content: 'Fantasy'
-        },
-    ],
-    author: [
-        {
-            value: '1',
-            content: 'David Goggins'
-        },
-        {
-            value: '2',
-            content: 'Cal Newport'
-        },
-        {
-            value: '3',
-            content: 'Grant Cardone'
-        },
-        {
-            value: '4',
-            content: 'JK Rowling'
-        },
-    ]
-}
+const initialState = loadData('boonote.tags') || {author: [], category: []}
 
 const tagsSlice = createSlice({
     name: 'tags',
