@@ -18,6 +18,7 @@ export const FilterNotes = (props) => {
     const [ orderType, setOrderType ] = useState('Descending');
     const [ selectedAuthors, setSelectedAuthors ] = useState([]);
     const [ selectedCategories, setSelectedCategories ] = useState([]);
+    const [ selectedState, setSelectedState ] = useState(String.fromCharCode(160));
 
     // Event Handlers
     const handleOrderByChange = (e) => {
@@ -36,7 +37,8 @@ export const FilterNotes = (props) => {
             authors: authors,
             categories: selectedCategories,
             order: orderBy,
-            orderType: orderType
+            orderType: orderType,
+            state: selectedState
         });
     }
     const handleAuthorsRemove = (e, value) => {
@@ -48,7 +50,8 @@ export const FilterNotes = (props) => {
             authors: authors,
             categories: selectedCategories,
             order: orderBy,
-            orderType: orderType
+            orderType: orderType,
+            state: selectedState
         });
     }
 
@@ -59,7 +62,8 @@ export const FilterNotes = (props) => {
             authors: selectedAuthors,
             categories: categories,
             order: orderBy,
-            orderType: orderType
+            orderType: orderType,
+            state: selectedState
         });
     }
     const handleCategoriesRemove = (e, value) => {
@@ -71,7 +75,20 @@ export const FilterNotes = (props) => {
             authors: selectedAuthors,
             categories: categories,
             order: orderBy,
-            orderType: orderType
+            orderType: orderType,
+            state: selectedState
+        });
+    }
+    
+    const handleStateChange = (e) => {
+        const state = e.target.value;
+        setSelectedState(state);
+        onFilter({
+            authors: selectedAuthors,
+            categories: selectedCategories,
+            order: orderBy,
+            orderType: orderType,
+            state: state === String.fromCharCode(160) ? '' : state
         });
     }
 
@@ -128,6 +145,21 @@ export const FilterNotes = (props) => {
                                 value={selectedCategories} 
                                 onChange={handleCategoriesChange}
                                 onRemoveTag={handleCategoriesRemove}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col xs="12">
+                        <Form.Group controlId="filterState">
+                            <Form.Label>State</Form.Label>
+                            <Select 
+                                options={[
+                                    {content: String.fromCharCode('160')},
+                                    {content: 'Read'},
+                                    {content: 'Reading'},
+                                    {content: 'To Read'},
+                                ]} 
+                                value={selectedState} 
+                                onChange={handleStateChange}
                             />
                         </Form.Group>
                     </Col>

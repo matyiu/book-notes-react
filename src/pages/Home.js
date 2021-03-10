@@ -71,6 +71,11 @@ export const Home = () => {
         }
     }
 
+    const findItem = (arr, value) => 
+        arr.findIndex(item => item === value) > -1;
+
+    const findState = (state, noteState) => state === noteState;
+
     // Event Handlers
     const handleSearchNotes = (e) => {
         setNotes(notesDefault.filter(
@@ -79,19 +84,35 @@ export const Home = () => {
     const handleOrderByNotes = (order, type) => {
         setNotes(orderBy[order.toLowerCase()](notes, type.toLowerCase()));
     }
-    const handleFilter = ({ authors, categories, order, orderType }) => {
+    const handleFilter = ({ authors, categories, order, orderType, state }) => {
         let filteredNotes = [];
-        if (authors.length > 0 && categories > 0) {
+        if (authors.length > 0 && categories.length > 0 && state) {
             filteredNotes = notesDefault.filter(note => {
-                return authors.findIndex(author => author === note.author) > -1 &&
-                categories.findIndex(category => category === note.category) > -1;
+                return findItem(authors, note.author) &&
+                    findItem(categories, note.category) &&
+                    findState(state, note.state);
+            });
+        } else if (authors.length > 0 && categories.length > 0) {
+            filteredNotes = notesDefault.filter(note => {
+                return findItem(authors, note.author) &&
+                    findItem(categories, note.category);
+            });
+        } else if (authors.length > 0 && state) {
+            filteredNotes = notesDefault.filter(note => {
+                return findItem(authors, note.author) &&
+                    findState(state, note.state);
+            });
+        } else if (categories.length > 0 && state) {
+            filteredNotes = notesDefault.filter(note => {
+                return findItem(categories, note.category) &&
+                    findState(state, note.state);
             });
         } else if (authors.length > 0) {
-            filteredNotes = notesDefault.filter(note => 
-                authors.findIndex(author => author === note.author) > -1);
+            filteredNotes = notesDefault.filter(note => findItem(authors, note.author));
         } else if (categories.length > 0) {
-            filteredNotes = notesDefault.filter(note =>
-                categories.findIndex(category => category === note.category) > -1);
+            filteredNotes = notesDefault.filter(note => findItem(categories, note.category));
+        } else if (state) {
+            filteredNotes = notesDefault.filter(note => findState(state, note.state));
         } else {
             filteredNotes = notesDefault;
         }
