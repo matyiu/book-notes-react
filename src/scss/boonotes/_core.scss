@@ -19,3 +19,12 @@ h1, h2, h3, h4, h5, h6 {
         color: darken($color: $danger, $amount: 12%);
     }
 }
+
+.pill {
+    background: $secondary;
+    color: $white;
+    padding: 0 5px;
+    border-radius: 33px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}

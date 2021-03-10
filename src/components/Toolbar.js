@@ -4,7 +4,7 @@ import { FilterNotes } from './inputs/FilterNotes';
 import { AddNoteForm } from './notes/AddNoteForm';
 
 export const Toolbar = (props) => {
-    const { onOrder } = props;
+    const { onOrder, onFilter } = props;
 
     const [ openForm, setOpenForm ] = useState(false);
 
@@ -17,7 +17,7 @@ export const Toolbar = (props) => {
                 <Row>
                     <Col className="d-flex">
                         <Button className="mr-auto" onClick={handleCreateForm}>Create Note</Button>
-                        <FilterNotes onOrder={onOrder} />
+                        <FilterNotes onOrder={onOrder} onFilter={onFilter} />
                     </Col>
                 </Row>
             </Container>

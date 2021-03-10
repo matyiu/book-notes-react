@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 
 export const ButtonDialog = (props) => {
-    const { className, btnText } = props;
+    const { className, btnText, containerClassName } = props;
 
     // States
     const [ open, setOpen ] = useState(false);
@@ -26,7 +26,7 @@ export const ButtonDialog = (props) => {
     });
 
     return (
-        <div className="button-dialog-container" data-open={open} ref={container}>
+        <div className={"button-dialog-container " + containerClassName} data-open={open} ref={container}>
             <button className={className} onClick={handleOpenDialog}>{btnText}</button>
             <div className="button-dialog-wrapper">
                 <div className="button-dialog">

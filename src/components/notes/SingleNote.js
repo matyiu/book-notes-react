@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { noteUpdated, selectNoteById, noteDeleted } from '../../redux/notesSlice';
 import { authorAdded, categoryAdded, selectAllAuthors, selectAllCategories } from '../../redux/tagsSlice';
+import { SearchSelect } from '../inputs/SearchSelect';
 import { Select } from '../inputs/Select';
 import { TinyMceWrapper } from '../TinyMCE';
 
@@ -98,21 +99,19 @@ export const SingleNote = () => {
                         <Col className="d-flex flex-wrap">
                             <Form.Group controlId="addNoteFormAuthor">
                                 <Form.Label>Author</Form.Label>
-                                <Select 
-                                    onChange={handleAuthorChange} 
-                                    value={author} 
-                                    options={authors} 
-                                    read={false}
+                                <SearchSelect 
+                                    onChange={handleAuthorChange}
+                                    value={author}
+                                    options={authors}
                                     createHandler={createAuthorTag}
                                 />
                             </Form.Group>
                             <Form.Group controlId="addNoteFormCategory">
                                 <Form.Label>Category</Form.Label>
-                                <Select 
-                                    onChange={handleCategoryChange} 
-                                    value={category} 
-                                    options={categories} 
-                                    read={false}
+                                <SearchSelect 
+                                    onChange={handleCategoryChange}
+                                    value={category}
+                                    options={categories}
                                     createHandler={createCategoryTag}
                                 />
                             </Form.Group>

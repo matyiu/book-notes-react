@@ -13,12 +13,38 @@
     }
 
     .select-input {
+        @extend .form-control;
         position: relative;
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 50px;
+
+        .select-input-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-bottom: -10px;
+
+            li {
+                display: inline-block;
+                cursor: pointer;
+            }
+
+            & ~ input {
+                min-width: 30px;
+            }
+        }
 
         input {
-            @extend .form-control;
+            background: transparent;
+            border: none;
+            word-break: break-all;
+
+            &:focus {
+                outline: 0;
+            }
 
             &[readonly] {
                 background: transparent;
@@ -28,7 +54,7 @@
         i.fas {
             position: absolute;
             right: 15px;
-            z-index: -1;
+            z-index: 0;
         }
     }
 

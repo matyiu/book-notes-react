@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
 import { Col, Form } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { selectAllAuthors, selectAllCategories } from '../../redux/tagsSlice';
 import { ButtonDialog } from './ButtonDialog';
+import { MultiSelect } from './MultiSelect';
 import { Select } from './Select';
 
 export const FilterNotes = (props) => {
-    const { onOrder } = props;
+    const { onOrder, onFilter } = props;
+
+    // Redux Selectors
+    const authors = useSelector(selectAllAuthors);
+    const categories = useSelector(selectAllCategories);
 
     // State
     const [ orderBy, setOrderBy ] = useState('Alphabetically');
     const [ orderType, setOrderType ] = useState('Descending');
+    const [ selectedAuthors, setSelectedAuthors ] = useState([]);
+    const [ selectedCategories, setSelectedCategories ] = useState([]);
 
     // Event Handlers
     const handleOrderByChange = (e) => {
@@ -20,10 +29,57 @@ export const FilterNotes = (props) => {
         onOrder(orderBy, e.target.value);
     }
 
+    const handleAuthorsChange = (e) => {
+        const authors = [...selectedAuthors, e.target.value];
+        setSelectedAuthors(authors);
+        onFilter({
+            authors: authors,
+            categories: selectedCategories,
+            order: orderBy,
+            orderType: orderType
+        });
+    }
+    const handleAuthorsRemove = (e, value) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const authors = selectedAuthors.filter(author => author !== value);
+        setSelectedAuthors(authors);
+        onFilter({
+            authors: authors,
+            categories: selectedCategories,
+            order: orderBy,
+            orderType: orderType
+        });
+    }
+
+    const handleCategoriesChange = (e) => {
+        const categories = [...selectedCategories, e.target.value];
+        setSelectedCategories(categories);
+        onFilter({
+            authors: selectedAuthors,
+            categories: categories,
+            order: orderBy,
+            orderType: orderType
+        });
+    }
+    const handleCategoriesRemove = (e, value) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const categories = selectedCategories.filter(author => author !== value);
+        setSelectedCategories(categories);
+        onFilter({
+            authors: selectedAuthors,
+            categories: categories,
+            order: orderBy,
+            orderType: orderType
+        });
+    }
+
     return (
         <ButtonDialog 
             className="btn btn-outline-primary"
             btnText="Filter"
+            containerClassName="filterNotes"
         >
             <Form>
                 <Form.Row>
@@ -47,6 +103,33 @@ export const FilterNotes = (props) => {
                                 content: "Descending",
                             },
                         ]} value={orderType} />
+                    </Col>
+                </Form.Row>
+                <Form.Row>
+                    <Col xs="12">
+                        <h3>Filter</h3>
+                    </Col>
+                    <Col xs="12">
+                        <Form.Group controlId="filterAuthor" className="filter-select">
+                            <Form.Label>Author</Form.Label>
+                            <MultiSelect 
+                                options={authors} 
+                                value={selectedAuthors} 
+                                onChange={handleAuthorsChange}
+                                onRemoveTag={handleAuthorsRemove}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col xs="12">
+                        <Form.Group controlId="filterCategory" className="filter-select">
+                            <Form.Label>Category</Form.Label>
+                            <MultiSelect 
+                                options={categories} 
+                                value={selectedCategories} 
+                                onChange={handleCategoriesChange}
+                                onRemoveTag={handleCategoriesRemove}
+                            />
+                        </Form.Group>
                     </Col>
                 </Form.Row>
             </Form>

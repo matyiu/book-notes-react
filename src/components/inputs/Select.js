@@ -6,38 +6,21 @@ export const Select = (props) => {
         value, 
         onChange, 
         read,
-        createHandler
+        onCreate,
+        onSearch,
+        inputValue,
+        onClose,
+        create,
+        onKeyDown,
+        defaultOptions,
+        onRemoveTag
     } = props; // Props
 
     // Refs
-    const selectRef = useRef(null);
     const customSelectRef = useRef(null);
 
     // States
     const [ open, setOpen ] = useState(false);
-    const [ filteredOptions, setFilteredOptions ] = useState(options);
-    let inputValue = value;
-    if (options[0].value) {
-        const optionValue = options.find(option => option.value === value);
-        inputValue = optionValue.content;
-    }
-    const [ searchText, setSearchText ] = useState(inputValue);
-    const [ create, setCreate ] = useState(false);
-    const [ filter, setFilter ] = useState(false);
-
-    // Helper functions
-    const selectFireChangeEvt = (value) => {
-        // Change select value firing change event
-        const selectValueSetter = Object.getOwnPropertyDescriptor(window.HTMLSelectElement.prototype, 'value').set;
-        selectValueSetter.call(selectRef.current, value);
-        selectRef.current.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-
-    const filterOptions = search => {
-        return options.filter(option =>
-            option.content.startsWith(search)
-        );
-    }
 
     // Event handlers
     const handleClickOpen = () => setOpen(prevOpen => !prevOpen)
@@ -45,32 +28,11 @@ export const Select = (props) => {
     const handleOptionChange = (e, option) => {
         const optionValue = option.value || option.content;
         handleClickOpen();
-        setSearchText(option.content);
-        setCreate(false);
-        setFilteredOptions(options);
-        setFilter(false);
-
-        selectFireChangeEvt(optionValue);
+        onChange({target: {value: optionValue} });
     }
 
-    const handleSearchChange = (e) => {
-        const search = e.target.value;
-        setFilteredOptions(filterOptions(search));
-        setSearchText(search);
-        setCreate(true);
-        setFilter(true);
-    }
-
-    const handleCreateOption = () => {
-        setCreate(false);
-        setFilter(true);
-        createHandler(searchText);
-
-        customSelectRef.current.querySelector('input[type="text"]').focus();
-    }
-
-    // Custom Select Options
-    const renderedOptions = filteredOptions.map(option =>
+    // Rendered values
+    const renderedOptions = options.map(option =>
         <div 
             onClick={(e) => handleOptionChange(e, option)} 
             className="select-option"
@@ -78,27 +40,36 @@ export const Select = (props) => {
             {option.content}
         </div>
     )
-    const createOption = (create && searchText.length > 0) ? (
+    const createOption = (
         <div 
             className="select-option select-create"
-            onClick={handleCreateOption}
+            onClick={onCreate}
         >
             <i className="fas fa-plus"></i>
-            Create "{searchText}"
+            Create "{inputValue}"
         </div>
-    ) : null;
+    );
+
+    const valueOptions = defaultOptions || options;
+
+    const singleValue = (typeof value === 'string') && 
+        valueOptions.find(option => (option.value || option.content) === value).content;
+
+    const multipleValue = Array.isArray(value) && 
+        value.map(id => valueOptions.find(option => (option.value || option.content) === id));
+
+    const renderedValuePill = multipleValue && multipleValue.map(option => (
+        <li className="pill" onClick={(e) => {
+            onRemoveTag(e, option.value);
+        }}>{option.content}</li>
+    ));
 
     // Click outside select handler
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (customSelectRef.current && !customSelectRef.current.contains(e.target)) {
                 setOpen(false);
-                setCreate(false);
-                setFilter(false);
-                setFilteredOptions(options);
-
-                const currentOption = options.find(option => (option.value || option.content) === value);
-                setSearchText(currentOption.content);
+                onClose && onClose();
             }
         }
 
@@ -107,43 +78,26 @@ export const Select = (props) => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     });
 
-    // Update filteredOptions when props options changes
-    useEffect(() => {
-        if (filter) {
-            setFilter(false);
-            setFilteredOptions(options.filter(option =>
-                option.content.startsWith(searchText)
-            ));
-        }
-
-    }, [options, searchText, filter]);
-
     return (
         <div className="select" data-open={open} ref={customSelectRef}>
-            <div className="select-hidden">
-                <select 
-                    value={value} 
-                    onChange={onChange}
-                    ref={selectRef}
-                >
-                    {options.map(option => 
-                        (<option value={option.value || option.content}>
-                            {option.content}
-                        </option>)
-                    )}
-                </select>
-            </div>
             <div className="select-input" onClick={handleClickOpen}>
+                {renderedValuePill && (
+                    <ul className="select-input-list">
+                        {renderedValuePill}
+                    </ul>
+                )}
                 <input type="text" 
-                    value={searchText} 
+                    value={(typeof inputValue !== 'undefined') ?
+                        inputValue : singleValue} 
                     readOnly={(typeof read === 'undefined') ? true : read } 
-                    onChange={handleSearchChange} 
+                    onChange={onSearch}
+                    onKeyDown={onKeyDown} 
                 />
                 <i className="fas fa-angle-down"></i>
             </div>
             <div className="select-options-wrapper">
                 <div className="select-options">
-                    {createOption}
+                    {(create && inputValue.length > 0) && createOption}
                     {renderedOptions}
                 </div>
             </div>
