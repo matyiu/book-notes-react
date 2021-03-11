@@ -41,3 +41,12 @@
     }
   }
 }
+
+.btn-link {
+  color: $text;
+
+  &:hover {
+    color: $heading-color;
+    text-decoration: none;
+  }
+}

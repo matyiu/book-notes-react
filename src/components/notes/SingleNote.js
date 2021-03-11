@@ -7,6 +7,7 @@ import { authorAdded, categoryAdded, selectAllAuthors, selectAllCategories } fro
 import { SearchSelect } from '../inputs/SearchSelect';
 import { Select } from '../inputs/Select';
 import { TinyMceWrapper } from '../TinyMCE';
+import { ExportToHTML } from '../buttons/ExportToHTML';
 
 export const SingleNote = () => {
     // React Router Dom
@@ -76,7 +77,12 @@ export const SingleNote = () => {
     return (
         <div className="singleNote">
             <Container>
-                <Link to="/" className="back"><i className="fas fa-arrow-left"></i>Back</Link>
+                <div className="singleNote-toolbar d-flex flex-wrap justify-content-between align-items-center">
+                    <Link to="/" className="back"><i className="fas fa-arrow-left"></i>Back</Link>
+                    <div class="d-flex">
+                        <ExportToHTML notes={notes} name={name} />
+                    </div>
+                </div>
                 <Form>
                     <Form.Row className="singleNote-header">
                         <Col className="d-flex justify-content-between">
