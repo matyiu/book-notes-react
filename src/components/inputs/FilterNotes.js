@@ -20,6 +20,9 @@ export const FilterNotes = (props) => {
     const [ selectedCategories, setSelectedCategories ] = useState([]);
     const [ selectedState, setSelectedState ] = useState(String.fromCharCode(160));
 
+    // Helpers
+    const removeNonBreakingSpace = str => str.replace(String.fromCharCode(160), '');
+
     // Event Handlers
     const handleOrderByChange = (e) => {
         setOrderBy(e.target.value);
@@ -38,7 +41,7 @@ export const FilterNotes = (props) => {
             categories: selectedCategories,
             order: orderBy,
             orderType: orderType,
-            state: selectedState
+            state: removeNonBreakingSpace(selectedState)
         });
     }
     const handleAuthorsRemove = (e, value) => {
@@ -51,7 +54,7 @@ export const FilterNotes = (props) => {
             categories: selectedCategories,
             order: orderBy,
             orderType: orderType,
-            state: selectedState
+            state: removeNonBreakingSpace(selectedState)
         });
     }
 
@@ -63,7 +66,7 @@ export const FilterNotes = (props) => {
             categories: categories,
             order: orderBy,
             orderType: orderType,
-            state: selectedState
+            state: removeNonBreakingSpace(selectedState)
         });
     }
     const handleCategoriesRemove = (e, value) => {
@@ -76,7 +79,7 @@ export const FilterNotes = (props) => {
             categories: categories,
             order: orderBy,
             orderType: orderType,
-            state: selectedState
+            state: removeNonBreakingSpace(selectedState)
         });
     }
     
@@ -88,7 +91,7 @@ export const FilterNotes = (props) => {
             categories: selectedCategories,
             order: orderBy,
             orderType: orderType,
-            state: state === String.fromCharCode(160) ? '' : state
+            state: removeNonBreakingSpace(state)
         });
     }
 
