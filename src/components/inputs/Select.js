@@ -21,6 +21,7 @@ export const Select = (props) => {
 
     // States
     const [ open, setOpen ] = useState(false);
+    const [ focus, setFocus ] = useState(false);
 
     // Event handlers
     const handleClickOpen = () => setOpen(prevOpen => !prevOpen)
@@ -30,6 +31,8 @@ export const Select = (props) => {
         handleClickOpen();
         onChange({target: {value: optionValue} });
     }
+
+    const handleInputFocus = () => setFocus(true);
 
     // Rendered values
     const renderedOptions = options.map(option =>
@@ -69,6 +72,7 @@ export const Select = (props) => {
         const handleClickOutside = (e) => {
             if (customSelectRef.current && !customSelectRef.current.contains(e.target)) {
                 setOpen(false);
+                setFocus(false);
                 onClose && onClose();
             }
         }
@@ -79,7 +83,7 @@ export const Select = (props) => {
     });
 
     return (
-        <div className="select" data-open={open} ref={customSelectRef}>
+        <div className="select" data-open={(read === false) ? focus : open} ref={customSelectRef}>
             <div className="select-input" onClick={handleClickOpen}>
                 {renderedValuePill && (
                     <ul className="select-input-list">
@@ -91,7 +95,8 @@ export const Select = (props) => {
                         inputValue : singleValue} 
                     readOnly={(typeof read === 'undefined') ? true : read } 
                     onChange={onSearch}
-                    onKeyDown={onKeyDown} 
+                    onKeyDown={onKeyDown}
+                    onFocus={handleInputFocus}
                 />
                 <i className="fas fa-angle-down"></i>
             </div>
