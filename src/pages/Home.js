@@ -85,6 +85,11 @@ export const Home = () => {
 
     // Event Handlers
     const handleSearchNotes = (e) => {
+        if (e.target.value.length === 0) {
+            handleFilter(currentFilter);
+            return;
+        }
+
         setNotes(notesDefault.filter(
             note => note.name.startsWith(e.target.value)));
     }
