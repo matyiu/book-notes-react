@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Col } from "react-bootstrap";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { noteAdded } from '../../redux/notesSlice';
+import { selectAllAuthors, selectAllCategories, authorAdded, categoryAdded } from '../../redux/tagsSlice';
+import { SearchSelect } from '../inputs/SearchSelect';
+import { Select } from '../inputs/Select';
 
 export const AddNoteForm = (props) => {
     const [ show, setShow ] = useState(true);
     const { callbackClose } = props;
 
     const dispatch = useDispatch();
+
+    // Redux Selectors
+    const authors = useSelector(selectAllAuthors);
+    const categories = useSelector(selectAllCategories);
 
     // Form state
     const [ name, setName ] = useState('');
@@ -40,6 +47,10 @@ export const AddNoteForm = (props) => {
     // Close handle
     const handleClose = () => setShow(false);
 
+    // Redux handlers
+    const createAuthorTag = (content) => dispatch(authorAdded(content));
+    const createCategoryTag = (content) => dispatch(categoryAdded(content));
+
     return (
         <Modal 
             size="lg" 
@@ -66,23 +77,27 @@ export const AddNoteForm = (props) => {
                         <Col className="d-flex flex-wrap">
                             <Form.Group controlId="addNoteFormAuthor">
                                 <Form.Label>Author</Form.Label>
-                                <Form.Control as="select" onChange={handleAuthorChange}>
-                                    <option></option>
-                                    <option>David Goggins</option>
-                                    <option>Cal Newport</option>
-                                    <option>Grant Cardone</option>
-                                    <option>JK Rowling</option>
-                                </Form.Control>
+                                <SearchSelect 
+                                    options={[
+                                        {content: ''},
+                                        ...authors
+                                    ]} 
+                                    onChange={handleAuthorChange}
+                                    value={author}
+                                    createHandler={createAuthorTag}
+                                />
                             </Form.Group>
                             <Form.Group controlId="addNoteFormCategory">
                                 <Form.Label>Category</Form.Label>
-                                <Form.Control as="select" onChange={handleCategoryChange}>
-                                    <option></option>
-                                    <option>Productivity</option>
-                                    <option>Autobiography</option>
-                                    <option>Personal development</option>
-                                    <option>Fantasy</option>
-                                </Form.Control>
+                                <SearchSelect 
+                                    options={[
+                                        {content: ''},
+                                        ...categories
+                                    ]} 
+                                    onChange={handleCategoryChange}
+                                    value={category}
+                                    createHandler={createCategoryTag}
+                                />
                             </Form.Group>
                         </Col>
                     </Form.Row>
@@ -90,12 +105,16 @@ export const AddNoteForm = (props) => {
                         <Col>
                             <Form.Group controlId="addNoteFormState">
                                 <Form.Label>State</Form.Label>
-                                <Form.Control as="select" onChange={handleStateChange}>
-                                    <option></option>
-                                    <option>Read</option>
-                                    <option>Reading</option>
-                                    <option>To Read</option>
-                                </Form.Control>
+                                <Select 
+                                    options={[
+                                        {content: ''},
+                                        {content: 'Read'},
+                                        {content: 'Reading'},
+                                        {content: 'To Read'},
+                                    ]}
+                                    value={state}
+                                    onChange={handleStateChange}
+                                />
                             </Form.Group>
                         </Col>
                     </Form.Row>

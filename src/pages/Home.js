@@ -10,6 +10,13 @@ export const Home = () => {
 
     // React State
     const [ notes, setNotes ] = useState(notesDefault);
+    const [ currentFilter, setCurrentFilter ] = useState({
+        authors: [],
+        categories: [],
+        order: 'Alphabetically',
+        orderType: 'Descending',
+        state: ''
+    });
 
     // Refs
     const firstRender = useRef(true);
@@ -84,7 +91,13 @@ export const Home = () => {
     const handleOrderByNotes = (order, type) => {
         setNotes(orderBy[order.toLowerCase()](notes, type.toLowerCase()));
     }
-    const handleFilter = ({ authors, categories, order, orderType, state }) => {
+    const handleFilter = (options) => {
+        const { authors, categories, order, orderType, state } = options;
+
+        if (!Object.is(options, currentFilter)) {
+            setCurrentFilter(options);
+        }
+    
         let filteredNotes = [];
         if (authors.length > 0 && categories.length > 0 && state) {
             filteredNotes = notesDefault.filter(note => {
@@ -126,6 +139,10 @@ export const Home = () => {
             firstRender.current = false;
         }
     });
+
+    useEffect(() => {
+        handleFilter(currentFilter);
+    }, [notesDefault])
 
     return (
         <div id="homepage" ref={firstRender}>
