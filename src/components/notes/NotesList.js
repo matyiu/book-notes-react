@@ -1,11 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { selectAllAuthors, selectAllCategories } from '../../redux/tagsSlice';
+import { noteDeleted } from '../../redux/notesSlice';
 
 export const NotesList = (props) => {
     const { notes } = props;
+
+    const dispatch = useDispatch();
 
     // Redux Selectors
     const authors = useSelector(selectAllAuthors);
@@ -15,6 +18,12 @@ export const NotesList = (props) => {
         note => {
             const author = authors.find(author => author.value === note.author);
             const category = categories.find(category => category.value === note.category);
+
+            const handleRemoveClick = e => {
+                e.preventDefault();
+                e.stopPropagation();
+                dispatch(noteDeleted(note.id));
+            }
 
             return (
                 <Col xs="12" key={note.id}>
@@ -26,7 +35,7 @@ export const NotesList = (props) => {
                                 <div className="tag">{category.content}</div>
                                 <div className="tag">{author.content}</div>
                             </div>
-                            <Button className="note-action" variant="link">
+                            <Button onClick={handleRemoveClick} className="note-action" variant="link">
                                 <i className="fas fa-trash"></i>
                             </Button>
                         </article>
