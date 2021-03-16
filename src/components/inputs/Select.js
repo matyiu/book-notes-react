@@ -55,8 +55,12 @@ export const Select = (props) => {
 
     const valueOptions = defaultOptions || options;
 
-    const singleValue = (typeof value === 'string') && 
-        valueOptions.find(option => (option.value || option.content) === value).content;
+    let singleValue;
+    if (typeof value === 'string') {
+        const selectedValue = valueOptions.find(option => (option.value || option.content) === value);
+
+        singleValue = selectedValue !== undefined ? selectedValue.content : null;
+    }
 
     const multipleValue = Array.isArray(value) && 
         value.map(id => valueOptions.find(option => (option.value || option.content) === id));
