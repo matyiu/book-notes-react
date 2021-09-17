@@ -1,3 +1,17 @@
+# Boonote Front End
+
+It has been six months since I updated this project. I said that I have plans to update this small project into a full stack web application. Now I am finally working again on this project. At the moment the back end is in my Github profile with a basic REST API using PHP and Laravel.
+
+In the next weeks I am going to update the front end and the back end. I am currently designing a new interface and I have plans to upload the code into a server and a custom domain so that anyone can use it, though I doubt that more than 10 persons will use it.
+
+Here it is a snapshot of what the design will look like.
+
+![Notes View](notes-view-snapshot.png)
+
+If you want to keep track of the design I am making here it is a [link](https://www.figma.com/file/2AErzOKmGVQH6kTOJq5aGg/Boonote) to the figma file
+
+## Old Project Description
+
 This web app consists of creating book notes for every book we read
 
 To be a able to run this project you need to run the following command `npm install` to install dependencies
