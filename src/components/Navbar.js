@@ -15,7 +15,7 @@ const RowNavbar = styled(Row)`
 `;
 
 const BrandName = styled.a.attrs(() => {})`
-    font-family: "Roboto", sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
     font-size: 24px;
     color: ${darkTheme.white.accent};
 
