@@ -151,7 +151,7 @@ export const Home = () => {
 
     return (
         <div id="homepage" ref={firstRender}>
-            <Navbar onSearch={handleSearchNotes} />
+            <Navbar />
             <Toolbar onOrder={handleOrderByNotes} onFilter={handleFilter} />
             <NotesList notesDefault={notesDefault} notes={notes} />
         </div>

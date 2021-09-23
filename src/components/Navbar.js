@@ -1,31 +1,45 @@
 import React from 'react';
-import { Navbar as B4Navbar, Form, FormControl, Button, Container, Row, Col, InputGroup } from "react-bootstrap";
+import styled from 'styled-components';
+import { Container, Row } from './grid/grid';
+import { darkTheme } from './../variables/colors';
 
-export const Navbar = ({ onSearch }) => {
+const ContainerNavbar = styled(Container)`
+    height: 100%;
+    display: flex;
+    align-items: center;
+`;
+
+const RowNavbar = styled(Row)`
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const BrandName = styled.a.attrs(() => {})`
+    font-family: "Roboto", sans-serif;
+    font-size: 24px;
+    color: ${darkTheme.white.accent};
+
+    &:hover {
+        color: ${darkTheme.white.accent};
+        text-decoration: none;
+    }
+`;
+
+const Navbar = ({ className }) => {
     return (
-        <B4Navbar bg="light" expand="lg">
-            <Container>
-                <Row style={{ width: "100%" }}>
-                    <Col xs="4">
-                        <B4Navbar.Brand href="/">BooNote</B4Navbar.Brand>
-                    </Col>
-                    <Col xs="8">
-                        <B4Navbar.Toggle aria-controls="navbar-nav" />
-                        <B4Navbar.Collapse id="navbar-nav" className="justify-content-end">
-                            <Form inline>
-                                <InputGroup className="search-box">
-                                    <FormControl type="text" placeholder="Search" onChange={onSearch} />
-                                    <InputGroup.Append>
-                                        <Button variant="secondary">
-                                            <i className="fas fa-search"></i>
-                                        </Button>
-                                    </InputGroup.Append>
-                                </InputGroup>
-                            </Form>
-                        </B4Navbar.Collapse>
-                    </Col>
-                </Row>
-            </Container>
-        </B4Navbar>
+        <div className={className}>
+            <ContainerNavbar>
+                <RowNavbar>
+                    <BrandName href="/">Boonote</BrandName>
+                </RowNavbar>
+            </ContainerNavbar>
+        </div>
     );
 };
+
+const StyledNavbar = styled(Navbar)`
+    background: ${darkTheme.background};
+    height: 74px;
+`;
+
+export { StyledNavbar as Navbar };
