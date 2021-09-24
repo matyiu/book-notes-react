@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
-import { Container, Row, Button, Col } from 'react-bootstrap';
-import { FilterNotes } from './inputs/FilterNotes';
 import { AddNoteForm } from './notes/AddNoteForm';
+import { Container, Row, Col } from './grid/grid';
+import SearchNotes from './inputs/SearchNotes';
+import AddNote from './inputs/AddNote';
+import styled from 'styled-components';
+
+const ColFlex = styled(Col)`
+    display: flex;
+
+    > *:first-child {
+        margin-right: 13px;
+    }
+`;
 
 export const Toolbar = (props) => {
     const { onOrder, onFilter } = props;
@@ -15,10 +25,10 @@ export const Toolbar = (props) => {
         <div className="toolbar">
             <Container>
                 <Row>
-                    <Col className="d-flex">
-                        <Button className="mr-auto" onClick={handleCreateForm}>Create Note</Button>
-                        <FilterNotes onOrder={onOrder} onFilter={onFilter} />
-                    </Col>
+                    <ColFlex>
+                        <AddNote />
+                        <SearchNotes />
+                    </ColFlex>
                 </Row>
             </Container>
             {openForm && <AddNoteForm callbackClose={handleClosedCreateForm} />}
