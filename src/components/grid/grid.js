@@ -13,3 +13,8 @@ export const Row = styled.div`
     width: 100%;
     margin: 0 -15px
 `;
+
+export const Col = styled.div`
+    width: ${({ colNumber }) => (100 / 12) * colNumber}%;
+    padding: 0 15px;
+`;

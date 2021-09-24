@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Col, Container, Row } from '../components/grid/grid';
 import { Navbar } from '../components/Navbar';
 import { NotesList } from '../components/notes/NotesList';
+import { Sidebar } from '../components/Sidebar';
 import { Toolbar } from '../components/Toolbar';
 
 export const Home = () => {
@@ -152,8 +154,17 @@ export const Home = () => {
     return (
         <div id="homepage" ref={firstRender}>
             <Navbar />
-            <Toolbar onOrder={handleOrderByNotes} onFilter={handleFilter} />
-            <NotesList notesDefault={notesDefault} notes={notes} />
+            <Container>
+                <Row>
+                    <Col colNumber={3}>
+                        <Sidebar />
+                    </Col>
+                    <Col colNumber={9}>
+                        <Toolbar onOrder={handleOrderByNotes} onFilter={handleFilter} />
+                        <NotesList notesDefault={notesDefault} notes={notes} />
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 }
