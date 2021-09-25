@@ -11,6 +11,7 @@ const darkTheme = {
     },
     shadow: {
         default: '0 5px 47px 0 rgba(0,0,0,0.16)',
+        accent: '0 7px 64px 0 rgba(0,0,0,0.07)',
     },
     black: {
         placeholder: 'rgba(0,0,0,0.57)',
