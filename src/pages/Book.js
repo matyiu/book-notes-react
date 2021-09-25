@@ -6,7 +6,7 @@ export const Book = () => {
     return (
         <div id="bookpage">
             <Navbar />
-            <SingleNote />
+            {/* <SingleNote /> */}
         </div>
     );
 }
