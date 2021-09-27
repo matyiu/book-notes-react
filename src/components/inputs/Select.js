@@ -62,7 +62,7 @@ export const Select = (props) => {
     );
 
     return (
-        <Dropwdown input={selectInput}>
+        <Dropwdown className={props.className} input={selectInput}>
             {renderedOptions}
         </Dropwdown>
     );

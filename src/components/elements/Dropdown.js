@@ -34,6 +34,7 @@ const DropdownOptionsContainer = styled.div`
     box-shadow: ${darkTheme.shadow.accent};
     z-index: 1000;
     color: ${darkTheme.white.text};
+    min-width: 240px;
 
     .dropdown-options > * {
         display: block;
@@ -90,7 +91,7 @@ export const Dropwdown = (props) => {
     );
 
     return (
-        <DropdownContainer className="dropdown" ref={dropdownRef}>
+        <DropdownContainer className={"dropdown " + props.className} ref={dropdownRef}>
             <div className="dropdown-input" onClick={handleClickOpen}>
                 { input }
             </div>
