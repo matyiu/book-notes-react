@@ -1,5 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
 import { Dropwdown } from "../elements/Dropdown";
+import { InputText } from "../elements/Form";
+
+const SelectInput = styled(InputText)`
+    min-width: 240px;
+
+    & + i {
+        position: absolute;
+        right: 15px;
+    }
+`;
 
 export const Select = (props) => {
     const { 
@@ -42,7 +53,7 @@ export const Select = (props) => {
 
     const selectInput = (
         <>
-            <input type="text" 
+            <SelectInput 
                 value={selected} 
                 readOnly={(typeof read === 'undefined') ? true : read }
             />

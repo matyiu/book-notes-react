@@ -4,18 +4,18 @@ import { darkTheme } from "../../variables/colors";
 import { fonts } from "../../variables/fonts";
 
 const Input = styled.input`
-    background-color: ${({ colors }) => colors.background ? colors.background : darkTheme.primary.input};
-    box-shadow: ${({ colors }) => colors.shadow ? colors.shadow : darkTheme.shadow.default};
+    background-color: ${({ colors }) => (colors && colors.background) ? colors.background : darkTheme.primary.input};
+    box-shadow: ${({ colors }) => (colors && colors.shadow) ? colors.shadow : darkTheme.shadow.default};
     border: none;
     border-radius: 6px;
-    color: ${({ colors }) => colors.text ? colors.text : darkTheme.white.text};
+    color: ${({ colors }) => (colors && colors.text) ? colors.text : darkTheme.white.text};
     font-size: ${fonts.p.size}px;
     line-height: 20px;
     padding: 14px 15px;
     font-family: "Roboto Condensed", sans-serif;
 
     &::placeholder {
-        color: ${({ colors }) => colors.placeholder ? colors.placeholder : darkTheme.white.placeholder};
+        color: ${({ colors }) => (colors && colors.placeholder) ? colors.placeholder : darkTheme.white.placeholder};
         font-size: ${fonts.p.size}px;
         line-height: 20px;
         font-family: "Roboto Condensed", sans-serif;

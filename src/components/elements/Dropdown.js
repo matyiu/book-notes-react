@@ -4,17 +4,9 @@ import { darkTheme } from "../../variables/colors";
 import { fonts } from "../../variables/fonts";
 
 const DropdownContainer = styled.div`
-    background-color: ${darkTheme.primary.input};
-    box-shadow: ${darkTheme.shadow.default};
-    border: none;
-    border-radius: 6px;
-    color: ${darkTheme.white.text};
-    font-size: ${fonts.p.size}px;
-    line-height: 20px;
-    padding: 14px 15px;
-    font-family: "Roboto Condensed", sans-serif;
     position: relative;
-    min-width: 240px;
+    display: flex;
+    align-items: center;
 
     &::placeholder {
         color: ${darkTheme.white.placeholder};
@@ -24,31 +16,9 @@ const DropdownContainer = styled.div`
     }
 
     .dropdown-input {
-        min-height: 20px;
-    }
-
-    input {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: transparent;
-        border: none;
-        padding: 14px 15px;
-        color: ${darkTheme.white.text};
-
-        &::placeholder {
-            color: ${darkTheme.white.placeholder};
-        }
-    }
-
-    .dropdown-input {
         display: flex;
-        
-        i {
-            margin-left: auto;
-        }
+        align-items: center;
+        min-height: 20px;
     }
 `;
 
@@ -63,6 +33,7 @@ const DropdownOptionsContainer = styled.div`
     margin-top: 10px;
     box-shadow: ${darkTheme.shadow.accent};
     z-index: 1000;
+    color: ${darkTheme.white.text};
 
     .dropdown-options > * {
         padding: 7px;
@@ -89,7 +60,10 @@ export const Dropwdown = (props) => {
     const [ open, setOpen ] = useState(false);
 
     // Event handlers
-    const handleClickOpen = () => setOpen(prevOpen => !prevOpen)
+    const handleClickOpen = (e) => {
+        e.preventDefault();
+        setOpen(prevOpen => !prevOpen);
+    }
 
     // Click outside select handler
     useEffect(() => {
