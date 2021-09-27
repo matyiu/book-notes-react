@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Alert, Button, Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 import { selectAllAuthors, selectAllCategories } from '../../redux/tagsSlice';
 import { noteDeleted } from '../../redux/notesSlice';
+import NoteListItem from './NoteListItem';
+import { Container, Row, Col } from '../grid/grid';
 
 export const NotesList = (props) => {
     const { notes } = props;
@@ -26,20 +27,8 @@ export const NotesList = (props) => {
             }
 
             return (
-                <Col xs="12" key={note.id}>
-                    <Link to={`/book/${note.id}`}>
-                        <article className="note">
-                            <h2>{note.name}</h2>
-                            <div className="note-metadata">
-                                <div className="tag">{note.state}</div>
-                                <div className="tag">{category.content}</div>
-                                <div className="tag">{author.content}</div>
-                            </div>
-                            <Button onClick={handleRemoveClick} className="note-action" variant="link">
-                                <i className="fas fa-trash"></i>
-                            </Button>
-                        </article>
-                    </Link>
+                <Col colNumber="6" key={note.id}>
+                    <NoteListItem note={note} author={author} category={category} onRemove={handleRemoveClick} />
                 </Col>
             );
         }
@@ -52,7 +41,7 @@ export const NotesList = (props) => {
                     {(renderedNotes.length > 0) ? 
                         renderedNotes : 
                         (
-                            <Col xs="12">
+                            <Col colNumber="12">
                                 <Alert variant="info">No notes has been found</Alert>
                             </Col>
                         )
