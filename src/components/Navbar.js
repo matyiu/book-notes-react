@@ -12,6 +12,7 @@ const ContainerNavbar = styled(Container)`
 const RowNavbar = styled(Row)`
     justify-content: space-between;
     align-items: center;
+    margin: 0;
 `;
 
 const BrandName = styled.a.attrs(() => {})`
