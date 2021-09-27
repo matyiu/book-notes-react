@@ -35,6 +35,12 @@ const NoteListItemRow = styled.div`
     flex-wrap: nowrap;
 `;
 
+export {
+    NoteListItemRow,
+    Tag,
+    NoteListItemMetadata
+};
+
 export default (props) => {
     const { note, author, category, onRemove } = props;
 

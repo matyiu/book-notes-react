@@ -1,13 +1,52 @@
 import React, { useState } from 'react';
 import { Button, Col, Container, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { noteUpdated, selectNoteById, noteDeleted } from '../../redux/notesSlice';
 import { authorAdded, categoryAdded, selectAllAuthors, selectAllCategories } from '../../redux/tagsSlice';
-import { SearchSelect } from '../inputs/SearchSelect';
-import { Select } from '../inputs/Select';
+import { TagSelect } from '../elements/TagSelect';
 import { TinyMceWrapper } from '../TinyMCE';
-import { ExportToHTML } from '../buttons/ExportToHTML';
+import styled from 'styled-components';
+import { darkTheme } from '../../variables/colors';
+import { fonts } from '../../variables/fonts';
+import { NoteListItemMetadata, NoteListItemRow } from './NoteListItem';
+
+const SingleNoteContainer = styled.div`
+    padding: 25px;
+    background: ${darkTheme.primary.input};
+    color: ${darkTheme.white.text};
+
+    .singleNote-header {
+        margin-bottom: 13px;
+
+        .singleNote-name {
+            border: none;
+            padding: 0;
+            height: auto;
+            color: ${darkTheme.white.accent};
+            font-size: ${fonts.h2.size}px;
+            line-height: ${fonts.h2.lineHeight}px;
+        }
+    }
+
+    .singleNote-options {
+        margin: 0 -15px;
+        margin-bottom: 60px;
+
+        .form-group {
+            margin: 0 15px;
+            min-width: 237px;
+        }
+
+        .singleNote-state {
+            margin-left: auto;
+        }
+    }
+`;
+
+const SingleNoteMetadata = styled(NoteListItemMetadata)`
+    margin-bottom: 33px;
+`;
 
 export const SingleNote = () => {
     // React Router Dom
@@ -75,14 +114,7 @@ export const SingleNote = () => {
     const createCategoryTag = (content) => dispatch(categoryAdded(content));
 
     return (
-        <div className="singleNote">
-            <Container>
-                <div className="singleNote-toolbar d-flex flex-wrap justify-content-between align-items-center">
-                    <Link to="/" className="back"><i className="fas fa-arrow-left"></i>Back</Link>
-                    <div class="d-flex">
-                        <ExportToHTML notes={notes} name={name} />
-                    </div>
-                </div>
+        <SingleNoteContainer>
                 <Form>
                     <Form.Row className="singleNote-header">
                         <Col className="d-flex justify-content-between">
@@ -92,52 +124,44 @@ export const SingleNote = () => {
                                 onChange={handleNameChange} 
                                 value={name}
                             ></Form.Control>
-                            <Button 
+                            {/* <Button 
                                 variant="link" 
                                 className="note-action"
                                 onClick={handleRemoveClick}
                             >
                                 <i className="fas fa-trash"></i>
-                            </Button>
+                            </Button> */}
                         </Col>
                     </Form.Row>
-                    <Form.Row className="singleNote-options">
-                        <Col className="d-flex flex-wrap">
-                            <Form.Group controlId="addNoteFormAuthor">
-                                <Form.Label>Author</Form.Label>
-                                <SearchSelect 
-                                    onChange={handleAuthorChange}
-                                    value={author}
-                                    options={authors}
-                                    createHandler={createAuthorTag}
-                                />
-                            </Form.Group>
-                            <Form.Group controlId="addNoteFormCategory">
-                                <Form.Label>Category</Form.Label>
-                                <SearchSelect 
-                                    onChange={handleCategoryChange}
-                                    value={category}
-                                    options={categories}
-                                    createHandler={createCategoryTag}
-                                />
-                            </Form.Group>
-                            <Form.Group className="singleNote-state" controlId="addNoteFormState">
-                                <Form.Label>State</Form.Label>
-                                <Select onChange={handleStateChange} value={state} options={[
-                                    {content: 'Read'},
-                                    {content: 'Reading'},
-                                    {content: 'To Read'},
-                                ]} />
-                            </Form.Group>
-                        </Col>
-                    </Form.Row>
+                    <SingleNoteMetadata>
+                        <NoteListItemRow>
+                            <TagSelect 
+                                onChange={handleAuthorChange}
+                                value={author}
+                                options={authors}
+                                // createHandler={createAuthorTag}
+                            />
+                            <TagSelect 
+                                onChange={handleCategoryChange}
+                                value={category}
+                                options={categories}
+                                // createHandler={createCategoryTag}
+                            />
+                        </NoteListItemRow>
+                        <NoteListItemRow>
+                            <TagSelect onChange={handleStateChange} value={state} options={[
+                                {content: 'Read'},
+                                {content: 'Reading'},
+                                {content: 'To Read'},
+                            ]} />
+                        </NoteListItemRow>
+                    </SingleNoteMetadata>
                     <Form.Row>
                         <Col>
                             <TinyMceWrapper value={notes} onEditorChange={handleNotesChange} />
                         </Col>
                     </Form.Row>
                 </Form>
-            </Container>
-        </div>
+        </SingleNoteContainer>
     );
 }
