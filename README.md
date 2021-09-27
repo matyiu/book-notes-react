@@ -1,5 +1,7 @@
 # Boonote Front End
 
+**New update:** All the new commits to the project has been moved to v2 branch to have the old design intact so that you can compare the old code I made 7 months ago. Once I finish the new design and prepare the front end connection to the Laravel back end I will merge these two branches
+
 It has been six months since I updated this project. I said that I have plans to update this small project into a full stack web application. Now I am finally working again on this project. At the moment the back end is in my Github profile with a basic REST API using PHP and Laravel.
 
 In the next weeks I am going to update the front end and the back end. I am currently designing a new interface and I have plans to upload the code into a server and a custom domain so that anyone can use it, though I doubt that more than 10 persons will use it.
