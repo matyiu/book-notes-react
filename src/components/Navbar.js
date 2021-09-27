@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Container, Row } from './grid/grid';
 import { darkTheme } from './../variables/colors';
+import UserProfile from './elements/UserProfile';
 
 const ContainerNavbar = styled(Container)`
     height: 100%;
@@ -32,6 +33,7 @@ const Navbar = ({ className }) => {
             <ContainerNavbar>
                 <RowNavbar>
                     <BrandName href="/">Boonote</BrandName>
+                    <UserProfile user={null} />
                 </RowNavbar>
             </ContainerNavbar>
         </div>

@@ -36,7 +36,10 @@ const DropdownOptionsContainer = styled.div`
     color: ${darkTheme.white.text};
 
     .dropdown-options > * {
+        display: block;
         padding: 7px;
+        color: ${darkTheme.white.text};
+        text-decoration: none;
         cursor: pointer;
         transition: all 0.25s ease-in-out;
 
