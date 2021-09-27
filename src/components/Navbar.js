@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Container, Row } from './grid/grid';
 import { darkTheme } from './../variables/colors';
 import UserProfile from './elements/UserProfile';
+import { Link } from 'react-router-dom';
 
 const ContainerNavbar = styled(Container)`
     height: 100%;
@@ -16,7 +17,7 @@ const RowNavbar = styled(Row)`
     margin: 0;
 `;
 
-const BrandName = styled.a.attrs(() => {})`
+const BrandName = styled(Link)`
     font-family: "Roboto Condensed", sans-serif;
     font-size: 24px;
     color: ${darkTheme.white.accent};
@@ -32,7 +33,7 @@ const Navbar = ({ className }) => {
         <div className={className}>
             <ContainerNavbar>
                 <RowNavbar>
-                    <BrandName href="/">Boonote</BrandName>
+                    <BrandName to="/">Boonote</BrandName>
                     <UserProfile user={null} />
                 </RowNavbar>
             </ContainerNavbar>
