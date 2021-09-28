@@ -8,7 +8,7 @@ const Sidebar = (props) => {
     return (
         <SidebarContainer>
             <div>
-                <Link fontSize="22" href="#">All Notes</Link>
+                <Link fontSize="22" to="/">All Notes</Link>
                 <Link fontSize="22" href="#">Favorites</Link>
                 <Accordion title="State" fontSize="22">
                     <Link fontSize="18" href="#">Planned</Link>
@@ -36,7 +36,7 @@ const SidebarContainer = styled.aside`
     padding: 40px 15px;
     border-right: 2px solid ${darkTheme.white.separator};
 
-    ${Link} {
+    div > a {
         display: block;
         margin-bottom: 30px;
     }
