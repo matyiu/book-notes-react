@@ -15,6 +15,6 @@ export const Row = styled.div`
 `;
 
 export const Col = styled.div`
-    width: ${({ colNumber }) => (100 / 12) * colNumber}%;
+    width: ${({ colNumber }) => colNumber ? (100 / 12) * colNumber + '%' : 'auto'};
     padding: 0 15px;
 `;
