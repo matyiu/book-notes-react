@@ -34,7 +34,6 @@ const DropdownOptionsContainer = styled.div`
     box-shadow: ${darkTheme.shadow.accent};
     z-index: 1000;
     color: ${darkTheme.white.text};
-    min-width: 240px;
 
     .dropdown-options > * {
         display: block;
@@ -56,6 +55,9 @@ export const Dropwdown = (props) => {
         input,
         children,
     } = props; // Props
+
+    // Constants
+    const DROPDOWN_OPTIONS_CONTAINER_PADDING = 30;
 
     // Refs
     const dropdownRef = useRef(null);
@@ -81,6 +83,19 @@ export const Dropwdown = (props) => {
 
         return () => document.removeEventListener('mousedown', handleClickOutside);
     });
+
+    // Adjust dropdown width to fit the contents
+    useEffect(() => {
+        if (open) {
+            const optionChildren = dropdownRef.current.querySelectorAll('.dropdown-options > *');
+            const maxChildWidth = Array.from(optionChildren).reduce((currWidth, child) => {
+                return (currWidth <= child.offsetWidth) ? child.offsetWidth : currWidth;
+            }, optionChildren[0].offsetWidth);
+    
+            const dropdownOptionsContainer = dropdownRef.current.querySelector('.dropdown-options-wrapper');
+            dropdownOptionsContainer.style.minWidth = maxChildWidth + DROPDOWN_OPTIONS_CONTAINER_PADDING + 'px';
+        }
+    }, [open]);
 
     const options = (
         <DropdownOptionsContainer className="dropdown-options-wrapper">
