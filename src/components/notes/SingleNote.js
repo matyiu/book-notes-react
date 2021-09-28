@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { noteUpdated, selectNoteById, noteDeleted } from '../../redux/notesSlice';
@@ -11,6 +11,7 @@ import { darkTheme } from '../../variables/colors';
 import { fonts } from '../../variables/fonts';
 import { NoteListItemMetadata, NoteListItemRow } from './NoteListItem';
 import { Col, Row } from '../grid/grid';
+import Trash from '../icons/Trash';
 
 const SingleNoteContainer = styled.div`
     padding: 25px;
@@ -68,6 +69,9 @@ const SingleNoteRow = styled(Row)`
 
     ${Col}.actions {
         flex: 0.71;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
     }
 `;
 
@@ -150,13 +154,6 @@ export const SingleNote = () => {
                                 onChange={handleNameChange} 
                                 value={name}
                             ></Form.Control>
-                            {/* <Button 
-                                variant="link" 
-                                className="note-action"
-                                onClick={handleRemoveClick}
-                            >
-                                <i className="fas fa-trash"></i>
-                            </Button> */}
                         </div>
                         <SingleNoteMetadata>
                             <NoteListItemRow>
@@ -187,6 +184,13 @@ export const SingleNote = () => {
                     </Form>
                 </Col>
                 <Col className="actions">
+                    <Button 
+                        variant="link" 
+                        className="note-action"
+                        onClick={handleRemoveClick}
+                    >
+                        <Trash width="20" height="20" color={darkTheme.status.abandoned} />
+                    </Button>
                 </Col>
             </SingleNoteRow>
         </SingleNoteContainer>

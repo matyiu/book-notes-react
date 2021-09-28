@@ -19,6 +19,9 @@ const darkTheme = {
         accent: 'rgba(0,0,0,0.86)',
     },
     accent: '#35AF99',
+    status: {
+        abandoned: 'rgba(255,150,150,0.84)'
+    }
 };
 
 export {
