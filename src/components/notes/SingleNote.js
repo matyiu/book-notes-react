@@ -12,6 +12,7 @@ import { fonts } from '../../variables/fonts';
 import { NoteListItemMetadata, NoteListItemRow } from './NoteListItem';
 import { Col, Row } from '../grid/grid';
 import Trash from '../icons/Trash';
+import BookCover from '../elements/BookCover';
 
 const SingleNoteContainer = styled.div`
     padding: 25px;
@@ -144,6 +145,7 @@ export const SingleNote = () => {
         <SingleNoteContainer>
             <SingleNoteRow>
                 <Col className="book-cover">
+                    <BookCover src="https://via.placeholder.com/129x173" />
                 </Col>
                 <Col className="content">
                     <Form>
