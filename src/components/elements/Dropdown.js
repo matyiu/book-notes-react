@@ -27,13 +27,13 @@ const DropdownOptionsContainer = styled.div`
     top: 100%;
     left: 0;
     background: ${darkTheme.primary.input};
-    width: 100%;
     padding: 14px 15px;
     border-radius: 6px;
     margin-top: 10px;
     box-shadow: ${darkTheme.shadow.accent};
     z-index: 1000;
     color: ${darkTheme.white.text};
+    width: auto;
 
     .dropdown-options > * {
         display: block;
@@ -57,7 +57,8 @@ export const Dropwdown = (props) => {
     } = props; // Props
 
     // Constants
-    const DROPDOWN_OPTIONS_CONTAINER_PADDING = 30;
+    const DROPDOWN_OPTIONS_CONTAINER_PADDING = 40;
+    const DROPDOWN_OPTIONS_CONTAINER_MAX_WIDTH = 250;
 
     // Refs
     const dropdownRef = useRef(null);
@@ -85,15 +86,21 @@ export const Dropwdown = (props) => {
     });
 
     // Adjust dropdown width to fit the contents
+    // To do: avoid dropdown width change when is rendered by react
     useEffect(() => {
         if (open) {
             const optionChildren = dropdownRef.current.querySelectorAll('.dropdown-options > *');
+            const dropdownOptionsContainer = dropdownRef.current.querySelector('.dropdown-options-wrapper');
+
+            dropdownOptionsContainer.style.whiteSpace = 'nowrap';
+
             const maxChildWidth = Array.from(optionChildren).reduce((currWidth, child) => {
                 return (currWidth <= child.offsetWidth) ? child.offsetWidth : currWidth;
             }, optionChildren[0].offsetWidth);
     
-            const dropdownOptionsContainer = dropdownRef.current.querySelector('.dropdown-options-wrapper');
-            dropdownOptionsContainer.style.minWidth = maxChildWidth + DROPDOWN_OPTIONS_CONTAINER_PADDING + 'px';
+            dropdownOptionsContainer.style.minWidth = Math.min(maxChildWidth, DROPDOWN_OPTIONS_CONTAINER_MAX_WIDTH) + DROPDOWN_OPTIONS_CONTAINER_PADDING + 'px';
+
+            dropdownOptionsContainer.style.whiteSpace = 'normal';
         }
     }, [open]);
 
