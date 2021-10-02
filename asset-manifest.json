@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/book-notes-react/static/css/main.41db87c9.chunk.css",
+    "main.js": "/book-notes-react/static/js/main.68b4eb67.chunk.js",
+    "main.js.map": "/book-notes-react/static/js/main.68b4eb67.chunk.js.map",
+    "runtime-main.js": "/book-notes-react/static/js/runtime-main.927a3d97.js",
+    "runtime-main.js.map": "/book-notes-react/static/js/runtime-main.927a3d97.js.map",
+    "static/css/2.8802fc5f.chunk.css": "/book-notes-react/static/css/2.8802fc5f.chunk.css",
+    "static/js/2.4825cd59.chunk.js": "/book-notes-react/static/js/2.4825cd59.chunk.js",
+    "static/js/2.4825cd59.chunk.js.map": "/book-notes-react/static/js/2.4825cd59.chunk.js.map",
+    "index.html": "/book-notes-react/index.html",
+    "static/css/2.8802fc5f.chunk.css.map": "/book-notes-react/static/css/2.8802fc5f.chunk.css.map",
+    "static/css/main.41db87c9.chunk.css.map": "/book-notes-react/static/css/main.41db87c9.chunk.css.map",
+    "static/js/2.4825cd59.chunk.js.LICENSE.txt": "/book-notes-react/static/js/2.4825cd59.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.927a3d97.js",
+    "static/css/2.8802fc5f.chunk.css",
+    "static/js/2.4825cd59.chunk.js",
+    "static/css/main.41db87c9.chunk.css",
+    "static/js/main.68b4eb67.chunk.js"
+  ]
+}
