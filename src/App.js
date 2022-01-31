@@ -1,9 +1,10 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { Book } from './pages/Book';
-import { createGlobalStyle } from 'styled-components';
-import { darkTheme } from './variables/colors';
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { Book } from "./pages/Book";
+import { createGlobalStyle } from "styled-components";
+import { darkTheme } from "./variables/colors";
+import { LogIn } from "./pages/LogIn";
 
 function App() {
   return (
@@ -13,6 +14,9 @@ function App() {
         <Switch>
           <Route exact path="/book/:bookId">
             <Book />
+          </Route>
+          <Route exact path="/login">
+            <LogIn />
           </Route>
           <Route exact path="/">
             <Home />
