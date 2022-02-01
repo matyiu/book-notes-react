@@ -71,7 +71,7 @@ export const SignUp = () => {
           history.push("/login");
         }
 
-        setErrors(res.payload.data);
+        setErrors(res.payload.errors);
         setStatus(res.payload.message);
       });
     },
