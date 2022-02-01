@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getCookie } from "../app/cookies";
+import fetchWrapper from "../app/fetchWrapper";
 
 const initialState = {
   user: {},
@@ -16,6 +17,14 @@ const authSlice = createSlice({
         state.user = action.payload.data;
         state.logged = true;
         sessionStorage.setItem("logged", "true");
+      }
+    });
+
+    builder.addCase(logout.fulfilled, (state, action) => {
+      if (action.payload.success !== false) {
+        state.user = {};
+        state.logged = false;
+        sessionStorage.setItem("logged", "false");
       }
     });
   },
@@ -45,6 +54,11 @@ export const logIn = createAsyncThunk("login", async (userData = {}) => {
   const json = await res.json();
 
   return json;
+});
+
+export const logout = createAsyncThunk("logout", async () => {
+  const res = await fetchWrapper.delete("http://boonote.test:8000/logout");
+  return await res.json();
 });
 
 export default authSlice.reducer;
