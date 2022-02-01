@@ -6,6 +6,7 @@ import { createGlobalStyle } from "styled-components";
 import { darkTheme } from "./variables/colors";
 import { LogIn } from "./pages/LogIn";
 import Logout from "./pages/Logout";
+import { SignUp } from "./pages/SignUp";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
           </Route>
           <Route exact path="/logout">
             <Logout />
+          </Route>
+          <Route exact path="/register">
+            <SignUp />
           </Route>
           <Route exact path="/">
             <Home />

@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCookie } from "../app/cookies";
 import fetchWrapper from "../app/fetchWrapper";
 
 const initialState = {
@@ -31,33 +30,25 @@ const authSlice = createSlice({
 });
 
 export const logIn = createAsyncThunk("login", async (userData = {}) => {
-  await fetch("http://boonote.test:8000/sanctum/csrf-cookie", {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  });
+  await fetchWrapper.get("http://boonote.test:8000/sanctum/csrf-cookie");
 
-  const res = await fetch("http://boonote.test:8000/login", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "X-XSRF-TOKEN": decodeURIComponent(getCookie("XSRF-TOKEN")),
-      "X-Requested-With": "XMLHttpRequest",
-    },
-    credentials: "include",
+  const res = await fetchWrapper.post("http://boonote.test:8000/login", {
     body: JSON.stringify(userData),
   });
-  const json = await res.json();
 
-  return json;
+  return await res.json();
 });
 
 export const logout = createAsyncThunk("logout", async () => {
   const res = await fetchWrapper.delete("http://boonote.test:8000/logout");
+  return await res.json();
+});
+
+export const signUp = createAsyncThunk("signup", async (userData = {}) => {
+  const res = await fetchWrapper.post("http://boonote.test:8000/register", {
+    body: JSON.stringify(userData),
+  });
+
   return await res.json();
 });
 

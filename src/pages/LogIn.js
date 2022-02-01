@@ -79,7 +79,7 @@ export const LogIn = () => {
           <ErrorMessage>{formik.status}</ErrorMessage>
           <ButtonGroup>
             <Primary type="submit">Log In</Primary>
-            <LinkBtn to="signup">Sign Up</LinkBtn>
+            <LinkBtn to="register">Sign Up</LinkBtn>
           </ButtonGroup>
         </form>
       </AuthBox>
