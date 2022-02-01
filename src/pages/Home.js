@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import fetchWrapper from "../app/fetchWrapper";
 import { Col, Container, Row } from "../components/grid/grid";
 import Main from "../components/includes/Main";
 import { Navbar } from "../components/Navbar";
 import { NotesList } from "../components/notes/NotesList";
 import { Sidebar } from "../components/Sidebar";
 import { Toolbar } from "../components/Toolbar";
+import { setNotes as setNotesState } from "../redux/notesSlice";
 
 export const Home = () => {
   // Redux Selectors
@@ -153,21 +155,35 @@ export const Home = () => {
       filteredNotes = notesDefault;
     }
 
-    setNotes(
-      orderBy[order.toLowerCase()](filteredNotes, orderType.toLowerCase())
-    );
+    // setNotes(
+    //   orderBy[order.toLowerCase()](filteredNotes, orderType.toLowerCase())
+    // );
   };
 
-  useEffect(() => {
-    if (firstRender.current) {
-      setNotes(orderBy["alphabetically"](notesDefault, "descending"));
-      firstRender.current = false;
-    }
-  });
+  // useEffect(() => {
+  //   if (firstRender.current) {
+  //     setNotes(orderBy["alphabetically"](notesDefault, "descending"));
+  //     firstRender.current = false;
+  //   }
+  // });
 
-  useEffect(() => {
-    handleFilter(currentFilter);
-  }, [notesDefault]);
+  const dispatch = useDispatch();
+  useEffect(async () => {
+    const res = await fetchWrapper.get("http://boonote.test:8000/api/notes");
+    if (res.status < 300 && res.status >= 200) {
+      const json = await res.json();
+      if (json.success) {
+        dispatch(setNotesState(json.data));
+      }
+    } else {
+      sessionStorage.setItem("logged", "false");
+      history.push("/login");
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   handleFilter(currentFilter);
+  // }, [notesDefault]);
 
   return (
     <div id="homepage" ref={firstRender}>
@@ -180,7 +196,7 @@ export const Home = () => {
             </Col>
             <Col colNumber={9}>
               <Toolbar onOrder={handleOrderByNotes} onFilter={handleFilter} />
-              <NotesList notesDefault={notesDefault} notes={notes} />
+              <NotesList notesDefault={notesDefault} notes={notesDefault} />
             </Col>
           </Row>
         </Container>
