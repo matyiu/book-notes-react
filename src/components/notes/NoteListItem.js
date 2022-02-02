@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import fetchWrapper from "../../app/fetchWrapper";
+import stateMap from "../../app/stateMap";
 import { darkTheme } from "../../variables/colors";
 import { fonts } from "../../variables/fonts";
 import { Dropwdown } from "../elements/Dropdown";
@@ -45,12 +47,12 @@ export default (props) => {
       <NoteListItem>
         <Heading2>{note.title}</Heading2>
         <NoteListItemMetadata>
-          {/* <NoteListItemRow>
-            <Tag>{author.content}</Tag>
-            <Tag>{category.content}</Tag>
-          </NoteListItemRow> */}
           <NoteListItemRow>
-            <Tag>{note.state}</Tag>
+            {/* <Tag>{author.content}</Tag> */}
+            <Tag>{note.category.name}</Tag>
+          </NoteListItemRow>
+          <NoteListItemRow>
+            <Tag>{stateMap.get(Number(note.state))}</Tag>
             <Dropwdown
               input={
                 <More width="20" height="20" color={darkTheme.white.text} />
