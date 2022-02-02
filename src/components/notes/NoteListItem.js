@@ -42,13 +42,18 @@ export { NoteListItemRow, Tag, NoteListItemMetadata };
 export default (props) => {
   const { note, onRemove } = props;
 
+  let author = null;
+  if (Array.isArray(note.authors) && note.authors.length > 0) {
+    author = note.authors[0].name + (note.authors.length >= 2 ? "..." : "");
+  }
+
   return (
     <Link to={`/book/${note.id}`}>
       <NoteListItem>
         <Heading2>{note.title}</Heading2>
         <NoteListItemMetadata>
           <NoteListItemRow>
-            {/* <Tag>{author.content}</Tag> */}
+            <Tag>{author}</Tag>
             <Tag>{note.category.name}</Tag>
           </NoteListItemRow>
           <NoteListItemRow>

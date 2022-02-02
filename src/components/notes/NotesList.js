@@ -29,12 +29,7 @@ export const NotesList = (props) => {
 
     return (
       <Col colNumber="6" key={note.id}>
-        <NoteListItem
-          note={note}
-          author={author}
-          category={category}
-          onRemove={handleRemoveClick}
-        />
+        <NoteListItem note={note} onRemove={handleRemoveClick} />
       </Col>
     );
   });
