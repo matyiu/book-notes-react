@@ -97,7 +97,6 @@ export const SingleNote = () => {
   const authors = useSelector(selectAllAuthors);
   const categories = useSelector(selectAllCategories);
 
-  console.log(note);
   // Form state
   const [name, setName] = useState(note.title);
   const [author, setAuthor] = useState(
