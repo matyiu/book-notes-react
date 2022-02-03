@@ -48,7 +48,7 @@ export default (props) => {
   }
 
   return (
-    <Link to={`/book/${note.id}`}>
+    <Link to={`/notes/${note.id}`}>
       <NoteListItem>
         <Heading2>{note.title}</Heading2>
         <NoteListItemMetadata>

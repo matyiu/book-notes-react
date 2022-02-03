@@ -14,7 +14,7 @@ function App() {
       <div className="App">
         <GlobalStyle />
         <Switch>
-          <Route exact path="/book/:bookId">
+          <Route exact path="/notes/:noteId">
             <Book />
           </Route>
           <Route exact path="/login">

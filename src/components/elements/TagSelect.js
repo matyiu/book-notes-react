@@ -5,64 +5,62 @@ import { fonts } from "../../variables/fonts";
 import { darkTheme } from "../../variables/colors";
 
 const TagSelectInput = styled.div`
-    font-size: ${fonts.p.size}px;
-    line-height: ${fonts.p.lineHeight}px;
-    color: ${({ color }) => color ? color : darkTheme.white.text};
-    margin-right: 15px;
+  font-size: ${fonts.p.size}px;
+  line-height: ${fonts.p.lineHeight}px;
+  color: ${({ color }) => (color ? color : darkTheme.white.text)};
+  margin-right: 15px;
 `;
 
 export const TagSelect = (props) => {
-    const { 
-        options, 
-        value, 
-        onChange, 
-        read,
-    } = props; // Props
+  const { options, value, onChange, read } = props; // Props
 
-    // Event handlers
-    const handleOptionChange = (e, option) => {
-        const optionValue = option.value || option.content;
+  // Event handlers
+  const handleOptionChange = (e, option) => {
+    const optionValue = option.value || option.content;
 
-        closeDropdown();
-        onChange && onChange({ target: { value: optionValue } });
-        setSelected(option.content);
-    }
+    closeDropdown();
+    onChange && onChange({ target: { value: optionValue } });
+    setSelected(option.content);
+  };
 
-    const closeDropdown = () => {
-        const MousedownEvent = new MouseEvent('mousedown');
+  const closeDropdown = () => {
+    const MousedownEvent = new MouseEvent("mousedown");
 
-        document.dispatchEvent(MousedownEvent);
-    }
+    document.dispatchEvent(MousedownEvent);
+  };
 
-    // Rendered values
-    const renderedOptions = options.map(option =>
-        <div 
-            onClick={(e) => handleOptionChange(e, option)} 
-            className="select-option"
-        >
-            {option.content}
-        </div>
-    )
+  // Rendered values
+  const renderedOptions = options.map((option) => (
+    <div
+      onClick={(e) => handleOptionChange(e, option)}
+      className="select-option"
+    >
+      {option.name}
+    </div>
+  ));
 
-    const selectedValue = options.find(option => (option.value || option.content) === value);
-    const singleValue = selectedValue !== undefined ? selectedValue.content : null;
+  //   const selectedValue = options.find(
+  //     (option) => (option.value || option.name) === value.name
+  //   );
+  const selectedValue = value[0];
+  const singleValue = selectedValue !== undefined ? selectedValue.name : null;
 
-    // State
-    const [ selected, setSelected ] = useState(singleValue);
+  // State
+  const [selected, setSelected] = useState(singleValue);
 
-    const selectInput = (
-        <>
-            <TagSelectInput
-                contenteditable={(typeof read === 'undefined') ? true : read }
-            >
-                {selected}
-            </TagSelectInput>
-        </>
-    );
+  const selectInput = (
+    <>
+      <TagSelectInput
+        contenteditable={typeof read === "undefined" ? true : read}
+      >
+        {selected}
+      </TagSelectInput>
+    </>
+  );
 
-    return (
-        <Dropwdown className={props.className} input={selectInput}>
-            {renderedOptions}
-        </Dropwdown>
-    );
-}
+  return (
+    <Dropwdown className={props.className} input={selectInput}>
+      {renderedOptions}
+    </Dropwdown>
+  );
+};
