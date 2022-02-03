@@ -33,8 +33,10 @@ const tagsSlice = createSlice({
       },
     },
     setTags: (state, action) => {
-      state.category = action.payload.category;
-      state.author = action.payload.author;
+      const { category, author } = action.payload;
+
+      state.category = category || state.category;
+      state.author = author || state.author;
 
       return state;
     },

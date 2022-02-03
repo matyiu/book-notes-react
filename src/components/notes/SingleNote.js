@@ -181,7 +181,18 @@ export const SingleNote = () => {
       const res = await raw.json();
 
       if (res.success) {
-        dispatch(setTags({ category: res.data, author: authors }));
+        dispatch(setTags({ category: res.data }));
+      }
+    }
+
+    if (authors.length === 0) {
+      const raw = await fetchWrapper.get(
+        "http://boonote.test:8000/api/user/authors"
+      );
+      const res = await raw.json();
+
+      if (res.success) {
+        dispatch(setTags({ author: res.data }));
       }
     }
   }, []);
@@ -208,7 +219,7 @@ export const SingleNote = () => {
                 <TagSelect
                   onChange={handleAuthorChange}
                   value={author}
-                  options={[]}
+                  options={authors}
                   // createHandler={createAuthorTag}
                 />
                 <TagSelect
