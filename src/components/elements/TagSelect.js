@@ -16,11 +16,19 @@ export const TagSelect = (props) => {
 
   // Event handlers
   const handleOptionChange = (e, option) => {
-    const optionValue = option.value || option.content;
+    const optionValue = option.value || option.name;
 
     closeDropdown();
-    onChange && onChange({ target: { value: optionValue } });
-    setSelected(option.content);
+    onChange &&
+      onChange({
+        target: {
+          value: {
+            name: optionValue,
+            id: option.id,
+          },
+        },
+      });
+    setSelected(option.name);
   };
 
   const closeDropdown = () => {
@@ -39,9 +47,6 @@ export const TagSelect = (props) => {
     </div>
   ));
 
-  //   const selectedValue = options.find(
-  //     (option) => (option.value || option.name) === value.name
-  //   );
   const selectedValue = value && value[0];
   const singleValue = selectedValue ? selectedValue.name : null;
 

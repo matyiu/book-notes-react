@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
@@ -6,10 +6,12 @@ import {
   noteUpdated,
   selectNoteById,
   noteDeleted,
+  setNotes as setNotesRedux,
 } from "../../redux/notesSlice";
 import {
   authorAdded,
   categoryAdded,
+  setTags,
   selectAllAuthors,
   selectAllCategories,
 } from "../../redux/tagsSlice";
@@ -21,6 +23,7 @@ import { fonts } from "../../variables/fonts";
 import { NoteListItemMetadata, NoteListItemRow } from "./NoteListItem";
 import { Col, Row } from "../grid/grid";
 import Trash from "../icons/Trash";
+import fetchWrapper from "../../app/fetchWrapper";
 
 const SingleNoteContainer = styled.div`
   padding: 25px;
@@ -94,17 +97,17 @@ export const SingleNote = () => {
 
   // Redux selectors
   const note = useSelector((state) => selectNoteById(state, parseInt(noteId)));
-  const authors = useSelector(selectAllAuthors);
-  const categories = useSelector(selectAllCategories);
+  const authors = useSelector((state) => selectAllAuthors(state));
+  const categories = useSelector((state) => selectAllCategories(state));
 
   // Form state
-  const [name, setName] = useState(note.title);
+  const [name, setName] = useState(note && note.title);
   const [author, setAuthor] = useState(
-    note.authors && note.authors.length > 0 ? note.authors : null
+    note && note.authors && note.authors.length > 0 ? note.authors : null
   );
-  const [category, setCategory] = useState(note.category);
-  const [state, setState] = useState(note.state);
-  const [notes, setNotes] = useState(note.note);
+  const [category, setCategory] = useState(note && note.category);
+  const [state, setState] = useState(note && note.state);
+  const [notes, setNotes] = useState(note && note.note);
 
   // Form handle state change
   const handleNameChange = (e) => {
@@ -157,6 +160,32 @@ export const SingleNote = () => {
     history.push("/");
   };
 
+  useEffect(async () => {
+    if (!note) {
+      const raw = await fetchWrapper.get(
+        "http://boonote.test:8000/api/notes/" + noteId
+      );
+      const res = await raw.json();
+
+      if (res.success) {
+        dispatch(setNotesRedux(res.data));
+      }
+    }
+  }, []);
+
+  useEffect(async () => {
+    if (categories.length === 0) {
+      const raw = await fetchWrapper.get(
+        "http://boonote.test:8000/api/user/categories"
+      );
+      const res = await raw.json();
+
+      if (res.success) {
+        dispatch(setTags({ category: res.data, author: authors }));
+      }
+    }
+  }, []);
+
   // Redux handlers
   const createAuthorTag = (content) => dispatch(authorAdded(content));
   const createCategoryTag = (content) => dispatch(categoryAdded(content));
@@ -179,7 +208,7 @@ export const SingleNote = () => {
                 <TagSelect
                   onChange={handleAuthorChange}
                   value={author}
-                  options={authors}
+                  options={[]}
                   // createHandler={createAuthorTag}
                 />
                 <TagSelect
