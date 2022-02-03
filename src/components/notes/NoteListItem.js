@@ -54,7 +54,7 @@ export default (props) => {
         <NoteListItemMetadata>
           <NoteListItemRow>
             <Tag>{author}</Tag>
-            <Tag>{note.category.name}</Tag>
+            <Tag>{note.category && note.category.name}</Tag>
           </NoteListItemRow>
           <NoteListItemRow>
             <Tag>{stateMap.get(Number(note.state))}</Tag>

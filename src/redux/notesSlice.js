@@ -1,4 +1,5 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import fetchWrapper from "../app/fetchWrapper";
 
 const initialState = [];
 
@@ -6,25 +7,6 @@ const notesSlice = createSlice({
   name: "notes",
   initialState,
   reducers: {
-    noteAdded: {
-      reducer(state, action) {
-        state = state.concat([action.payload]);
-        return state;
-      },
-      prepare(name, author, category, state) {
-        return {
-          payload: {
-            id: nanoid(),
-            created: new Date(),
-            notes: "",
-            name,
-            author,
-            category,
-            state,
-          },
-        };
-      },
-    },
     noteUpdated(state, action) {
       const { id, changes } = action.payload;
       const existingNote = state.find((note) => note.id === id);
@@ -48,12 +30,26 @@ const notesSlice = createSlice({
       return state;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(createNote.fulfilled, (state, action) => {
+      if (action.payload.success === true) {
+        state.push(action.payload.data);
+      }
+    });
+  },
 });
 
 export default notesSlice.reducer;
 
-export const { noteAdded, noteUpdated, noteDeleted, setNotes } =
-  notesSlice.actions;
+export const { noteUpdated, noteDeleted, setNotes } = notesSlice.actions;
 
 export const selectNoteById = (state, noteId) =>
   state.notes.find((note) => note.id === noteId);
+
+export const createNote = createAsyncThunk("create", async (noteData) => {
+  const raw = await fetchWrapper.post("http://boonote.test:8000/api/notes", {
+    body: JSON.stringify(noteData),
+  });
+
+  return await raw.json();
+});

@@ -184,7 +184,7 @@ export const SingleNote = () => {
                 />
                 <TagSelect
                   onChange={handleCategoryChange}
-                  value={[category]}
+                  value={category && [category]}
                   options={categories}
                   // createHandler={createCategoryTag}
                 />

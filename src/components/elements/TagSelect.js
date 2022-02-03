@@ -42,8 +42,8 @@ export const TagSelect = (props) => {
   //   const selectedValue = options.find(
   //     (option) => (option.value || option.name) === value.name
   //   );
-  const selectedValue = value[0];
-  const singleValue = selectedValue !== undefined ? selectedValue.name : null;
+  const selectedValue = value && value[0];
+  const singleValue = selectedValue ? selectedValue.name : null;
 
   // State
   const [selected, setSelected] = useState(singleValue);

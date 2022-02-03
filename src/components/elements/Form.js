@@ -68,11 +68,13 @@ const InputTextIconContainer = styled.div`
 `;
 
 const InputTextButton = (props) => {
-  const { icon, colors, ...restProps } = props;
+  const { icon, colors, onClickBtn, ...restProps } = props;
 
   return (
     <InputTextButtonContainer>
-      <InputTextButtonIcon colors={colors}>{icon}</InputTextButtonIcon>
+      <InputTextButtonIcon onClick={onClickBtn} colors={colors}>
+        {icon}
+      </InputTextButtonIcon>
       <InputText {...restProps} colors={colors} />
     </InputTextButtonContainer>
   );
