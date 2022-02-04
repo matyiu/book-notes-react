@@ -6,18 +6,8 @@ const tagsSlice = createSlice({
   name: "tags",
   initialState,
   reducers: {
-    categoryAdded: {
-      reducer(state, action) {
-        state.category.push(action.payload);
-      },
-      prepare(content) {
-        return {
-          payload: {
-            value: nanoid(),
-            content,
-          },
-        };
-      },
+    categoryAdded: (state, action) => {
+      state.category.push(action.payload);
     },
     authorAdded: (state, action) => {
       state.author.push(action.payload);

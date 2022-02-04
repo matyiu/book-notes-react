@@ -24,6 +24,7 @@ import { NoteListItemMetadata, NoteListItemRow } from "./NoteListItem";
 import { Col, Row } from "../grid/grid";
 import Trash from "../icons/Trash";
 import fetchWrapper from "../../app/fetchWrapper";
+import useCreateOptions from "../../hooks/useCreateOptions";
 
 const SingleNoteContainer = styled.div`
   padding: 25px;
@@ -108,8 +109,11 @@ export const SingleNote = () => {
   const [category, setCategory] = useState(note && note.category);
   const [state, setState] = useState(note && note.state);
   const [notes, setNotes] = useState(note && note.note);
-  const [authorOptions, setAuthorOptions] = useState(authors);
-  const [categoryOptions, setCategoryOptions] = useState(categories);
+  const [authorOptions, setAuthorOptions] = useCreateOptions(authors, "author");
+  const [categoryOptions, setCategoryOptions] = useCreateOptions(
+    categories,
+    "category"
+  );
 
   // Form handle state change
   const handleNameChange = (e) => {
@@ -203,27 +207,26 @@ export const SingleNote = () => {
   const createAuthorTag = (content) => {
     const newAuthor = { ...content, id: Math.round(Math.random() * 10000) }; // Placeholder id to mock back end interaction
 
-    dispatch(authorAdded(author));
-    setAuthorOptions(
-      authorOptions.map((author) => (author.id === null ? newAuthor : author))
+    dispatch(authorAdded(newAuthor));
+  };
+  const createCategoryTag = (content) => {
+    dispatch(
+      categoryAdded({ ...content, id: Math.round(Math.random() * 10000) })
     );
   };
-  const createCategoryTag = (content) => dispatch(categoryAdded(content));
 
   const handleChangeInputAuthor = (e) => {
     const value = e.target.innerHTML;
-    const createOptionIndex = authorOptions.findIndex(
-      (author) => author.id === null
-    );
     const createOption = { id: null, name: value };
 
-    setAuthorOptions(
-      createOptionIndex > -1
-        ? authorOptions.map((author, index) =>
-            index === createOptionIndex ? createOption : author
-          )
-        : [createOption, ...authorOptions]
-    );
+    setAuthorOptions(createOption);
+  };
+
+  const handleChangeInputCategory = (e) => {
+    const value = e.target.innerHTML;
+    const createOption = { id: null, name: value };
+
+    setCategoryOptions(createOption);
   };
 
   return (
@@ -253,6 +256,7 @@ export const SingleNote = () => {
                   value={category && [category]}
                   options={categoryOptions}
                   onCreate={createCategoryTag}
+                  onChangeInput={handleChangeInputCategory}
                 />
               </NoteListItemRow>
               <NoteListItemRow>
