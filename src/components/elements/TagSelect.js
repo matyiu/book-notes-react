@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Dropwdown } from "../elements/Dropdown";
 import { fonts } from "../../variables/fonts";
 import { darkTheme } from "../../variables/colors";
+import Plus from "../icons/Plus";
 
 const TagSelectInput = styled.div`
   font-size: ${fonts.p.size}px;
@@ -12,7 +13,7 @@ const TagSelectInput = styled.div`
 `;
 
 export const TagSelect = (props) => {
-  const { options, value, onChange, read } = props; // Props
+  const { options, value, onChange, read, onChangeInput, onCreate } = props; // Props
 
   // Event handlers
   const handleOptionChange = (e, option) => {
@@ -38,14 +39,26 @@ export const TagSelect = (props) => {
   };
 
   // Rendered values
-  const renderedOptions = options.map((option) => (
-    <div
-      onClick={(e) => handleOptionChange(e, option)}
-      className="select-option"
-    >
-      {option.name}
-    </div>
-  ));
+  const renderedOptions = options.map((option) => {
+    return option.id !== null ? (
+      <div
+        onClick={(e) => handleOptionChange(e, option)}
+        className="select-option"
+      >
+        {option.name}
+      </div>
+    ) : (
+      <div
+        onClick={(e) => {
+          handleOptionChange(e, option);
+          onCreate(option);
+        }}
+        className="select-option"
+      >
+        <Plus color="white" width="1.5em" height="1.5em" /> {option.name}
+      </div>
+    );
+  });
 
   const selectedValue = value && value[0];
   const singleValue = selectedValue ? selectedValue.name : null;
@@ -56,7 +69,8 @@ export const TagSelect = (props) => {
   const selectInput = (
     <>
       <TagSelectInput
-        contenteditable={typeof read === "undefined" ? true : read}
+        contentEditable={typeof read === "undefined" ? "true" : read}
+        onInput={typeof read === "undefined" || read ? onChangeInput : null}
       >
         {selected}
       </TagSelectInput>

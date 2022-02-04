@@ -19,18 +19,8 @@ const tagsSlice = createSlice({
         };
       },
     },
-    authorAdded: {
-      reducer(state, action) {
-        state.author.push(action.payload);
-      },
-      prepare(content) {
-        return {
-          payload: {
-            value: nanoid(),
-            content,
-          },
-        };
-      },
+    authorAdded: (state, action) => {
+      state.author.push(action.payload);
     },
     setTags: (state, action) => {
       const { category, author } = action.payload;

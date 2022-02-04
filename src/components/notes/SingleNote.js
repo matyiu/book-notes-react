@@ -108,6 +108,8 @@ export const SingleNote = () => {
   const [category, setCategory] = useState(note && note.category);
   const [state, setState] = useState(note && note.state);
   const [notes, setNotes] = useState(note && note.note);
+  const [authorOptions, setAuthorOptions] = useState(authors);
+  const [categoryOptions, setCategoryOptions] = useState(categories);
 
   // Form handle state change
   const handleNameChange = (e) => {
@@ -198,8 +200,31 @@ export const SingleNote = () => {
   }, []);
 
   // Redux handlers
-  const createAuthorTag = (content) => dispatch(authorAdded(content));
+  const createAuthorTag = (content) => {
+    const newAuthor = { ...content, id: Math.round(Math.random() * 10000) }; // Placeholder id to mock back end interaction
+
+    dispatch(authorAdded(author));
+    setAuthorOptions(
+      authorOptions.map((author) => (author.id === null ? newAuthor : author))
+    );
+  };
   const createCategoryTag = (content) => dispatch(categoryAdded(content));
+
+  const handleChangeInputAuthor = (e) => {
+    const value = e.target.innerHTML;
+    const createOptionIndex = authorOptions.findIndex(
+      (author) => author.id === null
+    );
+    const createOption = { id: null, name: value };
+
+    setAuthorOptions(
+      createOptionIndex > -1
+        ? authorOptions.map((author, index) =>
+            index === createOptionIndex ? createOption : author
+          )
+        : [createOption, ...authorOptions]
+    );
+  };
 
   return (
     <SingleNoteContainer>
@@ -219,14 +244,15 @@ export const SingleNote = () => {
                 <TagSelect
                   onChange={handleAuthorChange}
                   value={author}
-                  options={authors}
-                  // createHandler={createAuthorTag}
+                  options={authorOptions}
+                  onCreate={createAuthorTag}
+                  onChangeInput={handleChangeInputAuthor}
                 />
                 <TagSelect
                   onChange={handleCategoryChange}
                   value={category && [category]}
-                  options={categories}
-                  // createHandler={createCategoryTag}
+                  options={categoryOptions}
+                  onCreate={createCategoryTag}
                 />
               </NoteListItemRow>
               <NoteListItemRow>
