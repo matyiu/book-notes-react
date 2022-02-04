@@ -14,15 +14,16 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../redux/authSlice";
 import { useHistory } from "react-router-dom";
+import { removeWhitespace } from "../utils/string";
 
 const validate = (form) => {
   const errors = {};
 
-  if (form.username.length === 0) {
+  if (removeWhitespace(form.username).length === 0) {
     errors.username = "Username or email is required";
   }
 
-  if (form.password.length === 0) {
+  if (removeWhitespace(form.password).length === 0) {
     errors.password = "Password is empty";
   }
 
@@ -45,6 +46,7 @@ export const LogIn = () => {
     },
     onSubmit: (values, { setStatus }) => {
       dispatch(logIn(values)).then((res) => {
+        // TODO: set formik errors with Laravel errors
         setStatus(res.payload.message);
       });
     },
