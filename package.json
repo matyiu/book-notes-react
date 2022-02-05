@@ -43,6 +43,10 @@
   },
   "devDependencies": {
     "@testing-library/react": "^12.1.2",
+    "jest-fetch-mock": "^3.0.3",
     "sass": "^1.49.0"
+  },
+  "jest": {
+    "resetMocks": false
   }
 }
