@@ -148,4 +148,25 @@ describe("Fetch Calls", () => {
     fireEvent.click(submitButton, { name: "Log In" });
     expect(await screen.findByText(validationError.body.message)).toBeTruthy();
   });
+
+  const errors = fetchResponses.validationError.body.errors;
+  it.each([...errors.username, ...errors.password])(
+    "Show field validation error: %s",
+    async (msg) => {
+      const validationError = fetchResponses.validationError;
+      fetch.mockResponse(
+        JSON.stringify(validationError.body),
+        validationError.options
+      );
+
+      renderAuthStore();
+
+      const { usernameField, passwordField, submitButton } = getLogInFields();
+      changeFieldValue(usernameField, "user");
+      changeFieldValue(passwordField, "userpassword");
+
+      fireEvent.click(submitButton, { name: "Log In" });
+      expect(await screen.findByText(msg)).toBeTruthy();
+    }
+  );
 });

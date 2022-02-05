@@ -44,9 +44,17 @@ export const LogIn = () => {
       password: "",
       remember: false,
     },
-    onSubmit: (values, { setStatus }) => {
+    onSubmit: (values, { setStatus, setErrors }) => {
       dispatch(logIn(values)).then((res) => {
-        // TODO: set formik errors with Laravel errors
+        const errors = res.payload.errors;
+        if (errors) {
+          const messages = {
+            username: errors.username.join("<br />"),
+            password: errors.password.join("<br />"),
+          };
+          setErrors(messages);
+        }
+
         setStatus(res.payload.message);
       });
     },
