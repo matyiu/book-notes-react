@@ -85,31 +85,67 @@ it("Username errors disappear when input is filled", async () => {
   expect(screen.queryByText("Password is empty")).toBeNull();
 });
 
-beforeEach(() => {
-  fetch.resetMocks();
-});
-
-it("Show user authentication error", async () => {
-  fetch.mockResponse(
-    JSON.stringify(
-      {
+describe("Fetch Calls", () => {
+  const fetchResponses = {
+    authError: {
+      body: {
         success: false,
         message: "Username or password is incorrect",
       },
-      {
+      options: {
         status: 400,
-      }
-    )
-  );
+      },
+    },
+    validationError: {
+      body: {
+        message: "The given data was invalid.",
+        errors: {
+          username: ["The username field is required."],
+          password: ["The password field is required."],
+        },
+      },
+      options: {
+        status: 422,
+      },
+    },
+  };
 
-  renderAuthStore();
+  beforeEach(() => {
+    fetch.resetMocks();
+  });
 
-  const { usernameField, passwordField, submitButton } = getLogInFields();
-  changeFieldValue(usernameField, "user");
-  changeFieldValue(passwordField, "userpassword");
+  it("Show user authentication error", async () => {
+    fetch.mockResponse(
+      JSON.stringify(fetchResponses.authError.body),
+      fetchResponses.authError.options
+    );
 
-  fireEvent.click(submitButton, { name: "Log In" });
-  expect(
-    await screen.findByText("Username or password is incorrect")
-  ).toBeTruthy();
+    renderAuthStore();
+
+    const { usernameField, passwordField, submitButton } = getLogInFields();
+    changeFieldValue(usernameField, "user");
+    changeFieldValue(passwordField, "userpassword");
+
+    fireEvent.click(submitButton, { name: "Log In" });
+    expect(
+      await screen.findByText(fetchResponses.authError.body.message)
+    ).toBeTruthy();
+  });
+
+  it("Show user back end invalid data error", async () => {
+    const validationError = fetchResponses.validationError;
+    fetch.mockResponse(
+      JSON.stringify(validationError.body),
+      validationError.options
+    );
+
+    renderAuthStore();
+
+    const { usernameField, passwordField, submitButton } = getLogInFields();
+    changeFieldValue(usernameField, "user");
+    changeFieldValue(passwordField, "userpassword");
+
+    fireEvent.click(submitButton, { name: "Log In" });
+    expect(await screen.findByText(validationError.body.message)).toBeTruthy();
+  });
 });
