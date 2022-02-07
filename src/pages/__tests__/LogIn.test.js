@@ -1,6 +1,6 @@
 import React from "react";
 import { LogIn } from "../LogIn";
-import { fireEvent, render, screen } from "../../test-utils";
+import { fireEvent, render, screen, changeFieldValue } from "../../test-utils";
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "../../redux/authSlice";
 import { waitForElementToBeRemoved } from "@testing-library/react";
@@ -21,14 +21,6 @@ const getLogInFields = () => {
     passwordField,
     submitButton,
   };
-};
-
-const changeFieldValue = (field, value) => {
-  fireEvent.change(field, {
-    target: {
-      value,
-    },
-  });
 };
 
 it("Form doesn't submit with empty inputs", async () => {

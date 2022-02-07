@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
@@ -18,5 +18,13 @@ const customRender = (ui, options = {}) => {
   return render(ui, { wrapper: Wrapper, ...renderOptions });
 };
 
+const changeFieldValue = (field, value) => {
+  fireEvent.change(field, {
+    target: {
+      value,
+    },
+  });
+};
+
 export * from "@testing-library/react";
-export { customRender as render };
+export { customRender as render, changeFieldValue };
