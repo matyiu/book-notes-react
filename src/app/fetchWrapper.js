@@ -1,42 +1,55 @@
 import { getCookie } from "./cookies";
 
-export default {
-  get: async (url, options = {}) => {
+const handleErrors = (e) => {
+  if (e instanceof TypeError) {
+    return new Error("Connection error");
+  }
+};
+
+const sendRequest = async (url, { headers, ...options } = {}) => {
+  try {
     return await fetch(url, {
-      method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        ...headers,
+      },
+      credentials: "include",
+      ...options,
+    });
+  } catch (e) {
+    return Promise.reject(handleErrors(e));
+  }
+};
+
+export default {
+  get: async (url, options = {}) => {
+    return await sendRequest(url, {
+      method: "GET",
+      headers: {
         "X-XSRF-TOKEN": decodeURIComponent(getCookie("XSRF-TOKEN")),
         "X-Requested-With": "XMLHttpRequest",
       },
-      credentials: "include",
       ...options,
     });
   },
   post: async (url, options = {}) => {
-    return await fetch(url, {
+    return await sendRequest(url, {
       method: "POST",
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
         "X-XSRF-TOKEN": decodeURIComponent(getCookie("XSRF-TOKEN")),
         "X-Requested-With": "XMLHttpRequest",
       },
-      credentials: "include",
       ...options,
     });
   },
   delete: async (url, options = {}) => {
-    return await fetch(url, {
+    return await sendRequest(url, {
       method: "DELETE",
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
         "X-XSRF-TOKEN": decodeURIComponent(getCookie("XSRF-TOKEN")),
         "X-Requested-With": "XMLHttpRequest",
       },
-      credentials: "include",
       ...options,
     });
   },

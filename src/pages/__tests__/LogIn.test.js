@@ -169,4 +169,25 @@ describe("Fetch Calls", () => {
       expect(await screen.findByText(msg)).toBeTruthy();
     }
   );
+
+  it("Handles request could not be sent", async () => {
+    fetch.mockReject(
+      (req) =>
+        req === "http://boonote.test:8000/login" &&
+        Promise.reject(new TypeError("Failed to fetch"))
+    );
+
+    renderAuthStore();
+
+    const { usernameField, passwordField, submitButton } = getLogInFields();
+    changeFieldValue(usernameField, "user");
+    changeFieldValue(passwordField, "userpassword");
+
+    fireEvent.click(submitButton, { name: "Log In" });
+    expect(
+      await screen.findByText(
+        "Connection error: please check your internet connection and/or try again"
+      )
+    ).toBeTruthy();
+  });
 });

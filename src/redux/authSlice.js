@@ -29,15 +29,32 @@ const authSlice = createSlice({
   },
 });
 
-export const logIn = createAsyncThunk("login", async (userData = {}) => {
-  await fetchWrapper.get("http://boonote.test:8000/sanctum/csrf-cookie");
+export const logIn = createAsyncThunk(
+  "login",
+  async (userData = {}, { rejectWithValue }) => {
+    try {
+      await fetchWrapper.get("http://boonote.test:8000/sanctum/csrf-cookie");
 
-  const res = await fetchWrapper.post("http://boonote.test:8000/login", {
-    body: JSON.stringify(userData),
-  });
+      const res = await fetchWrapper.post("http://boonote.test:8000/login", {
+        body: JSON.stringify(userData),
+      });
 
-  return await res.json();
-});
+      return await res.json();
+    } catch (error) {
+      const errorData = {
+        success: false,
+        message: "",
+      };
+      if (error.message === "Connection error") {
+        errorData.message =
+          error.message +
+          ": please check your internet connection and/or try again";
+      }
+
+      return rejectWithValue(errorData);
+    }
+  }
+);
 
 export const logout = createAsyncThunk("logout", async () => {
   const res = await fetchWrapper.delete("http://boonote.test:8000/logout");

@@ -45,18 +45,23 @@ export const LogIn = () => {
       remember: false,
     },
     onSubmit: (values, { setStatus, setErrors }) => {
-      dispatch(logIn(values)).then((res) => {
-        const errors = res.payload.errors;
-        if (errors) {
-          const messages = {
-            username: errors.username.join("<br />"),
-            password: errors.password.join("<br />"),
-          };
-          setErrors(messages);
-        }
+      dispatch(logIn(values))
+        .unwrap()
+        .then((res) => {
+          const errors = res.errors;
+          if (errors) {
+            const messages = {
+              username: errors.username.join("<br />"),
+              password: errors.password.join("<br />"),
+            };
+            setErrors(messages);
+          }
 
-        setStatus(res.payload.message);
-      });
+          setStatus(res.message);
+        })
+        .catch((err) => {
+          setStatus(err.message);
+        });
     },
     validate: validate,
   });
