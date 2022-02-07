@@ -112,3 +112,38 @@ describe("Front End Validation", () => {
     );
   });
 });
+
+describe("Back end validation", () => {
+  beforeAll(() => {
+    renderAuthStore();
+
+    const fields = getFields();
+    changeFieldValue(fields.usernameField, "jeff");
+    changeFieldValue(fields.emailField, "jeff@domain.com");
+    changeFieldValue(fields.nameField, "Jeff");
+    changeFieldValue(fields.passwordField, "1234567890");
+    changeFieldValue(fields.confirmPasswordField, "1234567890");
+  });
+
+  afterEach(() => {
+    fetch.resetMocks();
+  });
+
+  it("Displays username already exists error", async () => {
+    fetch.mockResponse(
+      JSON.stringify({
+        message: "Invalid Data",
+        errors: {
+          username: "The username has already been taken",
+        },
+      })
+    );
+
+    const { submitButton } = getFields();
+    fireEvent.click(submitButton, { name: "Sign Up" });
+
+    expect(
+      await screen.findByText("The username has already been taken")
+    ).toBeTruthy();
+  });
+});
