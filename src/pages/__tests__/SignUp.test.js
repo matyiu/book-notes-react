@@ -113,8 +113,16 @@ describe("Front End Validation", () => {
   });
 });
 
+const validationErrors = {
+  password: [
+    "The password is required.",
+    "The password must be at least 10 characters.",
+  ],
+  confirm_password: ["The confirm password and password must match."],
+};
+
 describe("Back end validation", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     renderAuthStore();
 
     const fields = getFields();
@@ -146,4 +154,21 @@ describe("Back end validation", () => {
       await screen.findByText("The username has already been taken")
     ).toBeTruthy();
   });
+
+  it.each([...validationErrors.password, ...validationErrors.confirm_password])(
+    "Show field validation error: %s",
+    async (msg) => {
+      fetch.mockResponse(
+        JSON.stringify({
+          message: "Invalid data",
+          errors: validationErrors,
+        })
+      );
+
+      const { submitButton } = getFields();
+      fireEvent.click(submitButton, { name: "Sign Up" });
+
+      expect(await screen.findByText(new RegExp(msg))).toBeTruthy();
+    }
+  );
 });
