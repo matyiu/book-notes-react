@@ -42,8 +42,7 @@ export const logIn = createAsyncThunk(
       return await res.json();
     } catch (error) {
       const errorData = {
-        success: false,
-        message: "",
+        ...error,
       };
       if (error.message === "Connection error") {
         errorData.message =
@@ -61,12 +60,19 @@ export const logout = createAsyncThunk("logout", async () => {
   return await res.json();
 });
 
-export const signUp = createAsyncThunk("signup", async (userData = {}) => {
-  const res = await fetchWrapper.post("http://boonote.test:8000/register", {
-    body: JSON.stringify(userData),
-  });
+export const signUp = createAsyncThunk(
+  "signup",
+  async (userData = {}, { rejectWithValue }) => {
+    try {
+      const res = await fetchWrapper.post("http://boonote.test:8000/register", {
+        body: JSON.stringify(userData),
+      });
 
-  return await res.json();
-});
+      return await res.json();
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export default authSlice.reducer;

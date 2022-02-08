@@ -48,19 +48,21 @@ export const LogIn = () => {
       dispatch(logIn(values))
         .unwrap()
         .then((res) => {
-          const errors = res.errors;
-          if (errors) {
-            const messages = {
-              username: errors.username.join("<br />"),
-              password: errors.password.join("<br />"),
-            };
+          setStatus(res.message);
+        })
+        .catch((e) => {
+          if (e.errors) {
+            const messages = { ...e.errors };
+            for (const field in messages) {
+              if (Object.hasOwnProperty.call(messages, field)) {
+                messages[field] = messages[field].join("\n");
+              }
+            }
+
             setErrors(messages);
           }
 
-          setStatus(res.message);
-        })
-        .catch((err) => {
-          setStatus(err.message);
+          setStatus(e.message);
         });
     },
     validate: validate,

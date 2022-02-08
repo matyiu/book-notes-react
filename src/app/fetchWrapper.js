@@ -3,12 +3,14 @@ import { getCookie } from "./cookies";
 const handleErrors = (e) => {
   if (e instanceof TypeError) {
     return new Error("Connection error");
+  } else {
+    return e;
   }
 };
 
 const sendRequest = async (url, { headers, ...options } = {}) => {
   try {
-    return await fetch(url, {
+    const raw = await fetch(url, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -17,6 +19,12 @@ const sendRequest = async (url, { headers, ...options } = {}) => {
       credentials: "include",
       ...options,
     });
+
+    if (raw.status >= 200 && raw.status <= 299) {
+      return raw;
+    } else {
+      return Promise.reject(await raw.json());
+    }
   } catch (e) {
     return Promise.reject(handleErrors(e));
   }

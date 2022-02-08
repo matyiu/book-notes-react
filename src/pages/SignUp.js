@@ -66,14 +66,29 @@ export const SignUp = () => {
       remember: false,
     },
     onSubmit: (values, { setStatus, setErrors }) => {
-      dispatch(signUp(values)).then((res) => {
-        if (res.payload.success) {
-          history.push("/login");
-        }
+      dispatch(signUp(values))
+        .unwrap()
+        .then((res) => {
+          if (res.success) {
+            history.push("/login");
+          }
 
-        setErrors(res.payload.errors);
-        setStatus(res.payload.message);
-      });
+          setStatus(res.message);
+        })
+        .catch((e) => {
+          if (e.errors) {
+            const messages = { ...e.errors };
+            for (const field in messages) {
+              if (Object.hasOwnProperty.call(messages, field)) {
+                messages[field] = messages[field].join("\n");
+              }
+            }
+
+            setErrors(messages);
+          }
+
+          setStatus(e.message);
+        });
     },
     validate: validate,
   });

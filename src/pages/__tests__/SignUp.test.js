@@ -154,7 +154,10 @@ describe("Back end validation", () => {
       JSON.stringify({
         message: "Invalid data",
         errors: validationErrors,
-      })
+      }),
+      {
+        status: 422,
+      }
     );
 
     const { submitButton } = getFields();
