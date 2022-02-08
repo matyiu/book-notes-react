@@ -119,6 +119,12 @@ const validationErrors = {
     "The password must be at least 10 characters.",
   ],
   confirm_password: ["The confirm password and password must match."],
+  name: ["The name is required."],
+  email: ["The email is required.", "The email has already been taken."],
+  username: [
+    "The username is required.",
+    "The username has already been taken.",
+  ],
 };
 
 describe("Back end validation", () => {
@@ -137,38 +143,23 @@ describe("Back end validation", () => {
     fetch.resetMocks();
   });
 
-  it("Displays username already exists error", async () => {
+  it.each([
+    ...validationErrors.password,
+    ...validationErrors.confirm_password,
+    ...validationErrors.name,
+    ...validationErrors.username,
+    ...validationErrors.email,
+  ])("Show field validation error: %s", async (msg) => {
     fetch.mockResponse(
       JSON.stringify({
-        message: "Invalid Data",
-        errors: {
-          username: "The username has already been taken",
-        },
+        message: "Invalid data",
+        errors: validationErrors,
       })
     );
 
     const { submitButton } = getFields();
     fireEvent.click(submitButton, { name: "Sign Up" });
 
-    expect(
-      await screen.findByText("The username has already been taken")
-    ).toBeTruthy();
+    expect(await screen.findByText(new RegExp(msg))).toBeTruthy();
   });
-
-  it.each([...validationErrors.password, ...validationErrors.confirm_password])(
-    "Show field validation error: %s",
-    async (msg) => {
-      fetch.mockResponse(
-        JSON.stringify({
-          message: "Invalid data",
-          errors: validationErrors,
-        })
-      );
-
-      const { submitButton } = getFields();
-      fireEvent.click(submitButton, { name: "Sign Up" });
-
-      expect(await screen.findByText(new RegExp(msg))).toBeTruthy();
-    }
-  );
 });
