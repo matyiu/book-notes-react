@@ -16,7 +16,7 @@ import {
   selectAllCategories,
 } from "../../redux/tagsSlice";
 import { TagSelect } from "../elements/TagSelect";
-import { TinyMceWrapper } from "../TinyMCE";
+import ContentEditable from "../inputs/ContentEditable";
 import styled from "styled-components";
 import { darkTheme } from "../../variables/colors";
 import { fonts } from "../../variables/fonts";
@@ -152,12 +152,14 @@ export const SingleNote = () => {
       })
     );
   };
-  const handleNotesChange = (content) => {
+  const handleNotesChange = (e) => {
+    const content = e.target.innerHTML;
+
     setNotes(content);
     dispatch(
       noteUpdated({
         id: noteId,
-        changes: { notes: content },
+        changes: { note: content },
       })
     );
   };
@@ -272,10 +274,7 @@ export const SingleNote = () => {
               </NoteListItemRow>
             </SingleNoteMetadata>
             <div>
-              <TinyMceWrapper
-                value={notes}
-                onEditorChange={handleNotesChange}
-              />
+              <ContentEditable value={notes} onChange={handleNotesChange} />
             </div>
           </Form>
         </Col>
