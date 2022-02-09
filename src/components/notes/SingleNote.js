@@ -25,6 +25,7 @@ import { Col, Row } from "../grid/grid";
 import Trash from "../icons/Trash";
 import fetchWrapper from "../../app/fetchWrapper";
 import useCreateOptions from "../../hooks/useCreateOptions";
+import debounce from "../../app/debounce";
 
 const SingleNoteContainer = styled.div`
   padding: 25px;
@@ -88,6 +89,15 @@ const SingleNoteRow = styled(Row)`
   }
 `;
 
+const dispatchState = debounce(({ id, changes, dispatch }) => {
+  dispatch(
+    noteUpdated({
+      id,
+      changes,
+    })
+  );
+}, 3000);
+
 export const SingleNote = () => {
   // React Router Dom
   const { noteId } = useParams();
@@ -118,50 +128,75 @@ export const SingleNote = () => {
   // Form handle state change
   const handleNameChange = (e) => {
     setName(e.target.value);
-    dispatch(
-      noteUpdated({
-        id: Number(noteId),
-        changes: { title: e.target.value },
-      })
-    );
+    dispatchState({
+      id: Number(noteId),
+      changes: {
+        title: e.target.value,
+        author,
+        notes,
+        state,
+        category,
+      },
+      dispatch,
+    });
   };
   const handleAuthorChange = (e) => {
     setAuthor(e.target.value);
-    dispatch(
-      noteUpdated({
-        id: Number(noteId),
-        changes: { author: e.target.value },
-      })
-    );
+    dispatchState({
+      id: Number(noteId),
+      changes: {
+        title: name,
+        author: e.target.value,
+        notes,
+        state,
+        category,
+      },
+      dispatch,
+    });
   };
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
-    dispatch(
-      noteUpdated({
-        id: Number(noteId),
-        changes: { category: e.target.value },
-      })
-    );
+    dispatchState({
+      id: Number(noteId),
+      changes: {
+        title: name,
+        author,
+        notes,
+        state,
+        category: e.target.value,
+      },
+      dispatch,
+    });
   };
   const handleStateChange = (e) => {
     setState(e.target.value);
-    dispatch(
-      noteUpdated({
-        id: Number(noteId),
-        changes: { state: e.target.value },
-      })
-    );
+    dispatchState({
+      id: Number(noteId),
+      changes: {
+        title: name,
+        author,
+        notes,
+        state: e.target.value,
+        category,
+      },
+      dispatch,
+    });
   };
   const handleNotesChange = (e) => {
     const content = e.target.innerHTML;
-
     setNotes(content);
-    dispatch(
-      noteUpdated({
-        id: Number(noteId),
-        changes: { note: content },
-      })
-    );
+
+    dispatchState({
+      id: Number(noteId),
+      changes: {
+        title: name,
+        author,
+        notes: content,
+        state,
+        category,
+      },
+      dispatch,
+    });
   };
   const handleRemoveClick = () => {
     dispatch(noteDeleted(Number(noteId)));
