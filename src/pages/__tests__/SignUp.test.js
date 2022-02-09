@@ -181,4 +181,17 @@ describe("Back end validation", () => {
 
     expect(await screen.findByText("Server error")).toBeTruthy;
   });
+
+  it("Handles fetch connection error message", async () => {
+    fetch.mockReject(
+      (req) =>
+        req === "http://boonote.test:8000/register" &&
+        Promise.reject(new TypeError("Failed to fetch"))
+    );
+
+    const { submitButton } = getFields();
+    fireEvent.click(submitButton, { name: "Sign Up" });
+
+    expect(await screen.findByText("Connection error")).toBeTruthy;
+  });
 });
