@@ -198,7 +198,7 @@ export const Home = () => {
             </Col>
             <Col colNumber={9}>
               <Toolbar onOrder={handleOrderByNotes} onFilter={handleFilter} />
-              <NotesList notesDefault={notesDefault} notes={notes} />
+              <NotesList notesDefault={notesDefault} notes={notesDefault} />
             </Col>
           </Row>
         </Container>
