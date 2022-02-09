@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 export const TagList = (props) => {
-    const { tags } = props;
+    const { tags } = props
 
-    const tagList = tags.map(tag => (
+    const tagList = tags.map((tag) => (
         <li className="pill">
             {tag}
             <span className="pill-close">
@@ -14,9 +14,7 @@ export const TagList = (props) => {
 
     return (
         <div className="select-list-wrapper">
-            <ul>
-                {tagList}
-            </ul>
+            <ul>{tagList}</ul>
         </div>
     )
 }

@@ -1,52 +1,52 @@
 @each $color, $value in $theme-colors {
-  .btn-#{$color} {
-    &:focus,
-    &.focus {
-        box-shadow: none;
-        outline: 1px solid darken($value, 12%) !important;
-        background: $color;
-    }
-
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
-        box-shadow: none;
-        outline: 1px solid darken($value, 12%) !important;
-
+    .btn-#{$color} {
         &:focus,
         &.focus {
             box-shadow: none;
+            outline: 1px solid darken($value, 12%) !important;
+            background: $color;
+        }
+
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active {
+            box-shadow: none;
+            outline: 1px solid darken($value, 12%) !important;
+
+            &:focus,
+            &.focus {
+                box-shadow: none;
+            }
         }
     }
-  }
 }
 
 @each $color, $value in $theme-colors {
-  .btn-outline-#{$color} {
-    &:focus,
-    &.focus {
-        box-shadow: none;
-        outline: 1px solid darken($value, 12%) !important;
-        background: $color;
-    }
-
-    &:not(:disabled):not(.disabled):active,
-    &:not(:disabled):not(.disabled).active {
-        box-shadow: none;
-        outline: 1px solid darken($value, 12%) !important;
-
+    .btn-outline-#{$color} {
         &:focus,
         &.focus {
             box-shadow: none;
+            outline: 1px solid darken($value, 12%) !important;
+            background: $color;
+        }
+
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active {
+            box-shadow: none;
+            outline: 1px solid darken($value, 12%) !important;
+
+            &:focus,
+            &.focus {
+                box-shadow: none;
+            }
         }
     }
-  }
 }
 
 .btn-link {
-  color: $text;
+    color: $text;
 
-  &:hover {
-    color: $heading-color;
-    text-decoration: none;
-  }
+    &:hover {
+        color: $heading-color;
+        text-decoration: none;
+    }
 }

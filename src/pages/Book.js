@@ -1,9 +1,9 @@
-import React from 'react';
-import { Navbar } from '../components/Navbar';
-import { Col, Container, Row } from '../components/grid/grid';
-import { SingleNote } from '../components/notes/SingleNote';
-import { Sidebar } from '../components/Sidebar';
-import Main from '../components/includes/Main';
+import React from 'react'
+import { Navbar } from '../components/Navbar'
+import { Col, Container, Row } from '../components/grid/grid'
+import { SingleNote } from '../components/notes/SingleNote'
+import { Sidebar } from '../components/Sidebar'
+import Main from '../components/includes/Main'
 
 export const Book = () => {
     return (
@@ -22,5 +22,5 @@ export const Book = () => {
                 </Container>
             </Main>
         </div>
-    );
+    )
 }

@@ -31,4 +31,4 @@ export const exportHtmlStyles = `
         margin: 0 auto;
         padding: 0 15px;
     }
-`;
+`

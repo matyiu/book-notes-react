@@ -1,12 +1,12 @@
 const debounce = (fn, timeout = 1000) => {
-  let timer;
+    let timer
 
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn(...args);
-    }, timeout);
-  };
-};
+    return (...args) => {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+            fn(...args)
+        }, timeout)
+    }
+}
 
-export default debounce;
+export default debounce

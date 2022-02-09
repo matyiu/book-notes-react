@@ -1,7 +1,7 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { saveAs } from 'file-saver';
-import { exportHtmlStyles } from '../../variables/exportHtmlStyles';
+import React from 'react'
+import { Button } from 'react-bootstrap'
+import { saveAs } from 'file-saver'
+import { exportHtmlStyles } from '../../variables/exportHtmlStyles'
 
 export const ExportToHTML = ({ notes, name }) => {
     const headTag = `
@@ -11,7 +11,7 @@ export const ExportToHTML = ({ notes, name }) => {
                 ${exportHtmlStyles}
             </style>
         </head>
-    `;
+    `
     const bodyTag = `
         <body>
             <div class="container">
@@ -22,15 +22,15 @@ export const ExportToHTML = ({ notes, name }) => {
 
     // Export Handlers
     const exportToHtml = () => {
-        const blob = new Blob([headTag, bodyTag], {type: 'text/html'});
-        const formatedName = name.replace(' ', '_') + '.html';
-        
-        saveAs(blob, formatedName);
+        const blob = new Blob([headTag, bodyTag], { type: 'text/html' })
+        const formatedName = name.replace(' ', '_') + '.html'
+
+        saveAs(blob, formatedName)
     }
 
     return (
         <Button onClick={exportToHtml} variant="link">
             Export in HTML
         </Button>
-    );
+    )
 }
