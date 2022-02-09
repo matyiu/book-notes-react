@@ -169,15 +169,17 @@ export const Home = () => {
 
   const dispatch = useDispatch();
   useEffect(async () => {
-    const res = await fetchWrapper.get("http://boonote.test:8000/api/notes");
-    if (res.status < 300 && res.status >= 200) {
-      const json = await res.json();
-      if (json.success) {
-        dispatch(setNotesState(json.data));
+    if (notesDefault.length === 0) {
+      const res = await fetchWrapper.get("http://boonote.test:8000/api/notes");
+      if (res.status < 300 && res.status >= 200) {
+        const json = await res.json();
+        if (json.success) {
+          dispatch(setNotesState(json.data));
+        }
+      } else {
+        sessionStorage.setItem("logged", "false");
+        history.push("/login");
       }
-    } else {
-      sessionStorage.setItem("logged", "false");
-      history.push("/login");
     }
   }, []);
 
@@ -196,7 +198,7 @@ export const Home = () => {
             </Col>
             <Col colNumber={9}>
               <Toolbar onOrder={handleOrderByNotes} onFilter={handleFilter} />
-              <NotesList notesDefault={notesDefault} notes={notesDefault} />
+              <NotesList notesDefault={notesDefault} notes={notes} />
             </Col>
           </Row>
         </Container>

@@ -120,8 +120,8 @@ export const SingleNote = () => {
     setName(e.target.value);
     dispatch(
       noteUpdated({
-        id: noteId,
-        changes: { name: e.target.value },
+        id: Number(noteId),
+        changes: { title: e.target.value },
       })
     );
   };
@@ -129,7 +129,7 @@ export const SingleNote = () => {
     setAuthor(e.target.value);
     dispatch(
       noteUpdated({
-        id: noteId,
+        id: Number(noteId),
         changes: { author: e.target.value },
       })
     );
@@ -138,7 +138,7 @@ export const SingleNote = () => {
     setCategory(e.target.value);
     dispatch(
       noteUpdated({
-        id: noteId,
+        id: Number(noteId),
         changes: { category: e.target.value },
       })
     );
@@ -147,7 +147,7 @@ export const SingleNote = () => {
     setState(e.target.value);
     dispatch(
       noteUpdated({
-        id: noteId,
+        id: Number(noteId),
         changes: { state: e.target.value },
       })
     );
@@ -158,13 +158,13 @@ export const SingleNote = () => {
     setNotes(content);
     dispatch(
       noteUpdated({
-        id: noteId,
+        id: Number(noteId),
         changes: { note: content },
       })
     );
   };
   const handleRemoveClick = () => {
-    dispatch(noteDeleted(noteId));
+    dispatch(noteDeleted(Number(noteId)));
     history.push("/");
   };
 
