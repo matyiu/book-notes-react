@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useRef } from "react";
 
 export default ({ value, onChange }) => {
-  // TODO: conserve cursor position on change
   // TODO: strip dangerous html tags
+  const defaultValue = useRef(value);
+
+  const handleChange = (e) => {
+    onChange(e);
+  };
 
   return (
     <div
       contentEditable="true"
-      onInput={onChange}
-      dangerouslySetInnerHTML={{ __html: value }}
+      onInput={handleChange}
+      dangerouslySetInnerHTML={{ __html: defaultValue.current }}
     />
   );
 };
