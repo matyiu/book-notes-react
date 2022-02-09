@@ -165,4 +165,20 @@ describe("Back end validation", () => {
 
     expect(await screen.findByText(new RegExp(msg))).toBeTruthy();
   });
+
+  it("Handles server error message", async () => {
+    fetch.mockResponse(
+      JSON.stringify({
+        message: "Server error",
+      }),
+      {
+        status: 500,
+      }
+    );
+
+    const { submitButton } = getFields();
+    fireEvent.click(submitButton, { name: "Sign Up" });
+
+    expect(await screen.findByText("Server error")).toBeTruthy;
+  });
 });
