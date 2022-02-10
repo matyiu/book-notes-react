@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { darkTheme } from '../../variables/colors'
@@ -17,12 +18,12 @@ const UserProfileBtn = (props) => {
     )
 }
 
-const UserProfile = (props) => {
-    const { user } = props
+const UserProfile = () => {
+    const user = useSelector((state) => state.auth.user)
 
     const userProfileBtn = (
         <UserProfileBtn
-            username={'username'}
+            username={user.username}
             profilePic={'https://via.placeholder.com/150'}
         />
     )

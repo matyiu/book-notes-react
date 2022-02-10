@@ -34,7 +34,7 @@ const Navbar = ({ className }) => {
             <ContainerNavbar>
                 <RowNavbar>
                     <BrandName to="/">Boonote</BrandName>
-                    <UserProfile user={null} />
+                    <UserProfile />
                 </RowNavbar>
             </ContainerNavbar>
         </div>
