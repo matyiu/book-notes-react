@@ -61,4 +61,14 @@ export default {
             ...options,
         })
     },
+    put: async (url, options = {}) => {
+        return await sendRequest(url, {
+            method: 'PUT',
+            headers: {
+                'X-XSRF-TOKEN': decodeURIComponent(getCookie('XSRF-TOKEN')),
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            ...options,
+        })
+    },
 }
