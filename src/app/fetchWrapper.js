@@ -8,7 +8,9 @@ const handleErrors = (e) => {
     }
 }
 
-const sendRequest = async (url, { headers, ...options } = {}) => {
+const sendRequest = async (url, options = {}, retryCount = 1) => {
+    const { maxRetries = 0, headers, ...restOptions } = options
+
     try {
         const raw = await fetch(url, {
             headers: {
@@ -17,7 +19,7 @@ const sendRequest = async (url, { headers, ...options } = {}) => {
                 ...headers,
             },
             credentials: 'include',
-            ...options,
+            ...restOptions,
         })
 
         if (raw.status >= 200 && raw.status <= 299) {
@@ -26,6 +28,10 @@ const sendRequest = async (url, { headers, ...options } = {}) => {
             return Promise.reject(await raw.json())
         }
     } catch (e) {
+        if (retryCount < maxRetries) {
+            return sendRequest(url, options, retryCount + 1)
+        }
+
         return Promise.reject(handleErrors(e))
     }
 }
