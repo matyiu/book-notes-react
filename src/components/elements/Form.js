@@ -112,6 +112,43 @@ const InputTextButtonIcon = styled.div`
     cursor: pointer;
 `
 
+const Textarea = styled.textarea`
+    min-height: 250px;
+    background-color: ${({ colors }) =>
+        colors && colors.background
+            ? colors.background
+            : darkTheme.primary.input};
+    box-shadow: ${({ colors }) =>
+        colors && colors.shadow ? colors.shadow : darkTheme.shadow.default};
+    border: none;
+    border-radius: 6px;
+    color: ${({ colors }) =>
+        colors && colors.text ? colors.text : darkTheme.white.text};
+    font-size: ${fonts.p.size}px;
+    line-height: 20px;
+    padding: 14px 15px;
+    font-family: 'Roboto Condensed', sans-serif;
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+        transition: background-color 5000s ease-in-out 0s;
+        -webkit-text-fill-color: ${({ colors }) =>
+            colors && colors.text ? colors.text : darkTheme.white.text};
+    }
+
+    &::placeholder {
+        color: ${({ colors }) =>
+            colors && colors.placeholder
+                ? colors.placeholder
+                : darkTheme.white.placeholder};
+        font-size: ${fonts.p.size}px;
+        line-height: 20px;
+        font-family: 'Roboto Condensed', sans-serif;
+    }
+`
+
 const InputGroup = styled.div`
     display: flex;
     flex-direction: ${({ flexDir }) =>
@@ -150,6 +187,7 @@ export {
     InputText,
     InputTextIcon,
     InputTextButton,
+    Textarea,
     InputGroup,
     Label,
     ButtonGroup,

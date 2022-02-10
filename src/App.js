@@ -7,6 +7,7 @@ import { darkTheme } from './variables/colors'
 import { LogIn } from './pages/LogIn'
 import Logout from './pages/Logout'
 import { SignUp } from './pages/SignUp'
+import Profile from './pages/Profile'
 
 function App() {
     return (
@@ -25,6 +26,9 @@ function App() {
                     </Route>
                     <Route exact path="/register">
                         <SignUp />
+                    </Route>
+                    <Route exact path="/profile">
+                        <Profile />
                     </Route>
                     <Route exact path="/">
                         <Home />

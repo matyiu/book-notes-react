@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom'
 import { Heading3 } from '../components/elements/Headings'
 import { darkTheme } from '../variables/colors'
 
-export const AuthBox = ({ children }) => {
+export const AuthBox = ({ children, header = 'Log In', showBrand = true }) => {
     return (
         <Wrapper>
             <AuthHeader>
-                <BrandName to="/">Boonote</BrandName>
-                <Heading3>Log In</Heading3>
+                {showBrand && <BrandName to="/">Boonote</BrandName>}
+                <Heading3>{header}</Heading3>
             </AuthHeader>
             <AuthBody>{children}</AuthBody>
         </Wrapper>
@@ -19,6 +19,7 @@ export const AuthBox = ({ children }) => {
 const Wrapper = styled.div`
     width: 375px;
     margin: auto;
+    padding-bottom: 70px;
 `
 
 const AuthHeader = styled.header`
