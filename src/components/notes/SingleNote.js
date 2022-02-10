@@ -194,7 +194,7 @@ export const SingleNote = () => {
             changes: {
                 title: name,
                 author,
-                notes: content,
+                note: content,
                 state,
                 category,
             },
