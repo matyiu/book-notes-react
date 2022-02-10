@@ -26,6 +26,12 @@ const authSlice = createSlice({
                 sessionStorage.setItem('logged', 'false')
             }
         })
+
+        builder.addCase(updateUser.fulfilled, (state, action) => {
+            if (action.payload.success === true) {
+                state.user = action.payload.data
+            }
+        })
     },
 })
 
@@ -71,6 +77,24 @@ export const signUp = createAsyncThunk(
         try {
             const res = await fetchWrapper.post(
                 'http://boonote.test:8000/register',
+                {
+                    body: JSON.stringify(userData),
+                }
+            )
+
+            return await res.json()
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
+export const updateUser = createAsyncThunk(
+    'user/update',
+    async (userData, { rejectWithValue }) => {
+        try {
+            const res = await fetchWrapper.put(
+                'http://boonote.test:8000/api/profile',
                 {
                     body: JSON.stringify(userData),
                 }

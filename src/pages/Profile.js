@@ -8,12 +8,14 @@ import {
     ErrorMessage,
     Textarea,
     ButtonGroup,
+    StatusMessage,
 } from '../components/elements/Form'
 import { Navbar } from '../components/Navbar'
 import { AuthBox } from '../layout/AuthBox'
 import { Primary, LinkBtn } from '../components/elements/Button'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { removeWhitespace } from '../utils/string'
+import { updateUser } from '../redux/authSlice'
 
 const validate = (form) => {
     const errors = {}
@@ -48,6 +50,7 @@ const validate = (form) => {
 }
 
 const Profile = () => {
+    const dispatch = useDispatch()
     const user = useSelector((state) => state.auth.user)
     const formik = useFormik({
         initialValues: {
@@ -58,8 +61,43 @@ const Profile = () => {
             password: '',
             confirm_password: '',
         },
+        initialStatus: {
+            type: null,
+            message: '',
+        },
         onSubmit: (values, { setStatus, setErrors }) => {
-            console.log(values)
+            dispatch(updateUser(values))
+                .unwrap()
+                .then((res) => {
+                    setStatus({
+                        type: 'success',
+                        message: res.message,
+                    })
+
+                    setTimeout(() => {
+                        setStatus({
+                            type: null,
+                            message: '',
+                        })
+                    }, 3000)
+                })
+                .catch((res) => {
+                    if (res.errors) {
+                        const messages = { ...res.errors }
+                        for (const field in messages) {
+                            if (Object.hasOwnProperty.call(messages, field)) {
+                                messages[field] = messages[field].join('\n')
+                            }
+                        }
+
+                        setErrors(messages)
+                    }
+
+                    setStatus({
+                        type: 'error',
+                        message: res.message,
+                    })
+                })
         },
         validate: validate,
     })
@@ -136,7 +174,9 @@ const Profile = () => {
                             {formik.errors.confirm_password}
                         </ErrorMessage>
                     </InputGroup>
-                    <ErrorMessage>{formik.status}</ErrorMessage>
+                    <StatusMessage type={formik.status.type}>
+                        {formik.status.message}
+                    </StatusMessage>
                     <ButtonGroup>
                         <Primary type="submit">Save profile</Primary>
                         <LinkBtn to="/">Return to notes</LinkBtn>

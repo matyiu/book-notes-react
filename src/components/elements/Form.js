@@ -182,6 +182,31 @@ const ErrorMessage = styled.div`
     }
 `
 
+const SuccessMessage = styled.div`
+    color: #35af99;
+
+    ${Input} + & {
+        margin-top: 7px;
+    }
+`
+
+const Message = styled.div`
+    ${Input} + & {
+        margin-top: 7px;
+    }
+`
+
+const StatusMessage = ({ type, children }) => {
+    switch (type) {
+        case 'error':
+            return <ErrorMessage>{children}</ErrorMessage>
+        case 'success':
+            return <SuccessMessage>{children}</SuccessMessage>
+        default:
+            return <Message>{children}</Message>
+    }
+}
+
 export {
     Input,
     InputText,
@@ -192,4 +217,7 @@ export {
     Label,
     ButtonGroup,
     ErrorMessage,
+    SuccessMessage,
+    Message,
+    StatusMessage,
 }
