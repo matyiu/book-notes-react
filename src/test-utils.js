@@ -4,8 +4,7 @@ import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
 const customRender = (ui, options = {}) => {
-    const { store, ...renderOptions } = options
-    const history = createMemoryHistory()
+    const { store, history = createMemoryHistory(), ...renderOptions } = options
 
     const Wrapper = ({ children }) => {
         return (
@@ -28,3 +27,40 @@ const changeFieldValue = (field, value) => {
 
 export * from '@testing-library/react'
 export { customRender as render, changeFieldValue }
+
+export const mockNoteSlice = {
+    status: 'idle',
+    message: null,
+    data: [
+        {
+            id: 1,
+            title: 'Title 1',
+            note: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis quia quam sint magni ipsum officia voluptates incidunt commodi repudiandae voluptatum iusto ipsam magnam modi placeat eligendi laudantium nobis, veniam dolorum.',
+            category: 1,
+            authors: [1, 2],
+        },
+    ],
+}
+
+export const mockTagSlice = {
+    category: [
+        {
+            id: 1,
+            name: 'Category 1',
+        },
+        {
+            id: 2,
+            name: 'Category 2',
+        },
+    ],
+    author: [
+        {
+            id: 1,
+            name: 'Author 1',
+        },
+        {
+            id: 2,
+            name: 'Author 2',
+        },
+    ],
+}
