@@ -28,6 +28,7 @@ import useCreateOptions from '../../hooks/useCreateOptions'
 import debounce from '../../app/debounce'
 import { StatusMessage } from '../elements/Form'
 import loadingMap from '../../app/loadingMap'
+import { ButtonLink } from '../elements/Button'
 
 const SingleNoteContainer = styled.div`
     padding: 25px;
@@ -115,7 +116,6 @@ export const SingleNote = () => {
     const status = useSelector((state) => state.notes.status)
 
     // Form state
-    const [statusMessage, setStatusMessage] = useState(null)
     const [name, setName] = useState(note && note.title)
     const [author, setAuthor] = useState(
         note && note.authors && note.authors.length > 0 ? note.authors : null
@@ -247,19 +247,6 @@ export const SingleNote = () => {
         }
     }, [])
 
-    useEffect(() => {
-        if (status === loadingMap.get(2) && statusMessage) {
-            setStatusMessage('Note saved successfully.')
-            setTimeout(() => {
-                setStatusMessage(null)
-            }, 5000)
-        } else if (status === loadingMap.get(1)) {
-            setStatusMessage('Saving note...')
-        } else if (status === loadingMap.get(3)) {
-            setStatusMessage("The note couldn't be saved.")
-        }
-    }, [status])
-
     // Redux handlers
     const createAuthorTag = (content) => {
         const newAuthor = { ...content, id: Math.round(Math.random() * 10000) } // Placeholder id to mock back end interaction
@@ -286,12 +273,41 @@ export const SingleNote = () => {
         setCategoryOptions(createOption)
     }
 
+    const retrySave = () => {
+        dispatchState({
+            id: Number(noteId),
+            changes: {
+                title: name,
+                author,
+                note: notes,
+                state,
+                category,
+            },
+            dispatch,
+        })
+    }
+
     return (
         <SingleNoteContainer>
-            {statusMessage && (
+            {status !== loadingMap.get(0) && (
                 <SingleNoteRow>
                     <Col>
-                        <StatusMessage>{statusMessage}</StatusMessage>
+                        {status === loadingMap.get(1) && (
+                            <StatusMessage>Saving note</StatusMessage>
+                        )}
+                        {status === loadingMap.get(2) && (
+                            <StatusMessage type="success">
+                                Note saved successfully
+                            </StatusMessage>
+                        )}
+                        {status === loadingMap.get(3) && (
+                            <StatusMessage type="error">
+                                Note couldn't be saved
+                                <ButtonLink onClick={retrySave}>
+                                    Try again
+                                </ButtonLink>
+                            </StatusMessage>
+                        )}
                     </Col>
                 </SingleNoteRow>
             )}

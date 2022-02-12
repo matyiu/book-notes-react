@@ -11,6 +11,14 @@ export const Primary = styled.button`
     box-shadow: ${darkTheme.shadow.accent};
 `
 
+export const ButtonLink = styled.button`
+    padding: 5px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: inherit;
+`
+
 export const LinkBtn = styled(Link)`
     padding: 14px 20px;
     background: transparent;

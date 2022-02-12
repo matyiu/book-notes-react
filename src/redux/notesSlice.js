@@ -19,7 +19,6 @@ const setSucceededStatus = (state) => {
 const setFailedStatus = (state, action) => {
     state.status = loadingMap.get(3)
     state.messsage = action.payload.messsage
-    state.data = action.payload.data
 }
 
 const notesSlice = createSlice({
