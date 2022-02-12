@@ -14,6 +14,9 @@ const setLoadingStatus = (state) => {
 
 const setSucceededStatus = (state) => {
     state.status = loadingMap.get(2)
+    setTimeout(() => {
+        state.status = loadingMap.get(0)
+    }, 5000)
 }
 
 const setFailedStatus = (state, action) => {
