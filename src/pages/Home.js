@@ -175,7 +175,7 @@ export const Home = () => {
 
     const dispatch = useDispatch()
     useEffect(async () => {
-        if (notesDefault.length === 0) {
+        if (notesDefault.data.length === 0) {
             const res = await fetchWrapper.get(
                 'http://boonote.test:8000/api/notes'
             )

@@ -15,7 +15,7 @@ export const NotesList = (props) => {
     const authors = useSelector(selectAllAuthors)
     const categories = useSelector(selectAllCategories)
 
-    const renderedNotes = notes.map((note) => {
+    const renderedNotes = notes.data.map((note) => {
         const author = authors.find((author) => author.value === note.author)
         const category = categories.find(
             (category) => category.value === note.category

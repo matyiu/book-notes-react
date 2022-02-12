@@ -1,7 +1,26 @@
 import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit'
 import fetchWrapper from '../app/fetchWrapper'
+import loadingMap from '../app/loadingMap'
 
-const initialState = []
+const initialState = {
+    data: [],
+    status: loadingMap.get(0),
+    message: null,
+}
+
+const setLoadingStatus = (state) => {
+    state.status = loadingMap.get(1)
+}
+
+const setSucceededStatus = (state) => {
+    state.status = loadingMap.get(2)
+}
+
+const setFailedStatus = (state, action) => {
+    state.status = loadingMap.get(3)
+    state.messsage = action.payload.messsage
+    state.data = action.payload.data
+}
 
 const notesSlice = createSlice({
     name: 'notes',
@@ -9,12 +28,12 @@ const notesSlice = createSlice({
     reducers: {
         noteUpdated(state, action) {
             const { id, changes } = action.payload
-            const existingNote = state.find((note) => note.id === id)
-            const existingNoteIndex = state.findIndex(
+            const existingNote = state.data.find((note) => note.id === id)
+            const existingNoteIndex = state.data.findIndex(
                 (note) => note === existingNote
             )
             if (existingNote) {
-                state[existingNoteIndex] = {
+                state.data[existingNoteIndex] = {
                     ...existingNote,
                     ...changes,
                 }
@@ -22,28 +41,39 @@ const notesSlice = createSlice({
         },
         noteDeleted(state, action) {
             const id = action.payload
-            state = state.filter((note) => note.id !== id)
+            state.data = state.data.filter((note) => note.id !== id)
             return state
         },
         setNotes(state, action) {
-            state = action.payload
+            state.data = action.payload
             return state
         },
     },
     extraReducers: (builder) => {
+        builder.addCase(createNote.pending, setLoadingStatus)
+        builder.addCase(createNote.rejected, setFailedStatus)
+
         builder.addCase(createNote.fulfilled, (state, action) => {
             if (action.payload.success === true) {
-                state.push(action.payload.data)
+                state.data.push(action.payload.data)
+                setSucceededStatus(state)
+            } else {
+                setFailedStatus(state, action)
             }
         })
 
+        builder.addCase(noteUpdated.pending, setLoadingStatus)
+        builder.addCase(noteUpdated.rejected, setFailedStatus)
         builder.addCase(noteUpdated.fulfilled, (state, action) => {
             if (action.payload.success === true) {
                 const updatedNote = action.payload.data
-                const index = state.findIndex(
+                const index = state.data.findIndex(
                     (note) => note.id === updatedNote.id
                 )
-                state.splice(index, 1, updatedNote)
+                state.data.splice(index, 1, updatedNote)
+                setSucceededStatus(state)
+            } else {
+                setFailedStatus(state, action)
             }
         })
     },
@@ -54,13 +84,13 @@ export default notesSlice.reducer
 export const { noteDeleted, setNotes } = notesSlice.actions
 
 export const selectNoteById = (state, noteId) =>
-    state.notes.find((note) => note.id === noteId)
+    state.notes.data.find((note) => note.id === noteId)
 
 export const noteUpdated = createAsyncThunk(
     'notes/update',
     async (noteData, { getState, rejectWithValue }) => {
         try {
-            const note = getState().notes.find(
+            const note = getState().notes.data.find(
                 (note) => note.id === noteData.id
             )
             const raw = await fetchWrapper.put(
