@@ -1,15 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import fetchWrapper from '../app/fetchWrapper'
 import { Col, Container, Row } from '../components/grid/grid'
 import Main from '../components/includes/Main'
 import { Navbar } from '../components/Navbar'
 import { NotesList } from '../components/notes/NotesList'
 import { Sidebar } from '../components/Sidebar'
 import { Toolbar } from '../components/Toolbar'
-import { setNotes as setNotesState } from '../redux/notesSlice'
-import { setTags } from '../redux/tagsSlice'
 
 export const Home = () => {
     // Redux Selectors
@@ -164,43 +161,13 @@ export const Home = () => {
         }
     }
 
-    const dispatch = useDispatch()
-    useEffect(async () => {
-        if (notesDefault.data.length === 0) {
-            const res = await fetchWrapper.get(
-                'http://boonote.test:8000/api/notes'
-            )
-            if (res.status < 300 && res.status >= 200) {
-                const json = await res.json()
-                if (json.success) {
-                    dispatch(setNotesState(json.data))
-                }
-            } else {
-                sessionStorage.setItem('logged', 'false')
-                history.push('/login')
-            }
-        }
-
-        if (tags.author.length === 0 || tags.category.length === 0) {
-            const rawAuthors = await fetchWrapper.get(
-                'http://boonote.test:8000/api/user/authors'
-            )
-            const rawCategories = await fetchWrapper.get(
-                'http://boonote.test:8000/api/user/categories'
-            )
-            const authorsRes = await rawAuthors.json()
-            const categoriesRes = await rawCategories.json()
-
-            if (authorsRes.success && categoriesRes.success) {
-                dispatch(
-                    setTags({
-                        author: authorsRes.data,
-                        category: categoriesRes.data,
-                    })
-                )
-            }
-        }
-    }, [])
+    const isDataLoaded = () => {
+        return (
+            (notes || notesDefault) &&
+            tags.author.length > 0 &&
+            tags.category.length > 0
+        )
+    }
 
     return (
         <div id="homepage" ref={firstRender}>
@@ -216,10 +183,14 @@ export const Home = () => {
                                 onOrder={handleOrderByNotes}
                                 onFilter={handleFilter}
                             />
-                            <NotesList
-                                notesDefault={notesDefault}
-                                notes={notesDefault}
-                            />
+                            {isDataLoaded() ? (
+                                <NotesList
+                                    notesDefault={notesDefault}
+                                    notes={notesDefault}
+                                />
+                            ) : (
+                                'Loading...'
+                            )}
                         </Col>
                     </Row>
                 </Container>
