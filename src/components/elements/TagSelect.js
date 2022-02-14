@@ -61,7 +61,7 @@ export const TagSelect = (props) => {
         )
     })
 
-    const selectedValue = value && value[0]
+    const selectedValue = value && Array.isArray(value) ? value[0] : value
     const singleValue = selectedValue ? selectedValue.name : null
 
     // State
@@ -70,7 +70,7 @@ export const TagSelect = (props) => {
     const selectInput = (
         <>
             <TagSelectInput
-                contentEditable={typeof read === 'undefined' ? 'true' : read}
+                contentEditable={typeof read === 'undefined' ? 'true' : !read}
                 onInput={
                     typeof read === 'undefined' || read ? onChangeInput : null
                 }

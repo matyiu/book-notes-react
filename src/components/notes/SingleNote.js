@@ -29,6 +29,8 @@ import debounce from '../../app/debounce'
 import { StatusMessage } from '../elements/Form'
 import loadingMap from '../../app/loadingMap'
 import { ButtonLink } from '../elements/Button'
+import mapToArr from '../../app/mapToArr'
+import stateMap from '../../app/stateMap'
 
 const SingleNoteContainer = styled.div`
     padding: 25px;
@@ -176,14 +178,14 @@ export const SingleNote = () => {
         })
     }
     const handleStateChange = (e) => {
-        setState(e.target.value)
+        setState(e.target.value.id)
         dispatchState({
             id: Number(noteId),
             changes: {
                 title: name,
                 author,
                 notes,
-                state: e.target.value,
+                state: e.target.value.id,
                 category,
             },
             dispatch,
@@ -342,12 +344,12 @@ export const SingleNote = () => {
                             <NoteListItemRow>
                                 <TagSelect
                                     onChange={handleStateChange}
-                                    value={state}
-                                    options={[
-                                        { content: 'Read' },
-                                        { content: 'Reading' },
-                                        { content: 'To Read' },
-                                    ]}
+                                    value={{
+                                        id: state,
+                                        name: stateMap.get(state),
+                                    }}
+                                    options={mapToArr(stateMap)}
+                                    read={true}
                                 />
                             </NoteListItemRow>
                         </SingleNoteMetadata>
