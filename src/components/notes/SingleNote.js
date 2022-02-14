@@ -31,6 +31,7 @@ import loadingMap from '../../app/loadingMap'
 import { ButtonLink } from '../elements/Button'
 import mapToArr from '../../app/mapToArr'
 import stateMap from '../../app/stateMap'
+import useNote from '../../hooks/useNote'
 
 const SingleNoteContainer = styled.div`
     padding: 25px;
@@ -118,13 +119,14 @@ export const SingleNote = () => {
     const status = useSelector((state) => state.notes.status)
 
     // Form state
-    const [name, setName] = useState(note && note.title)
-    const [author, setAuthor] = useState(
-        note && note.authors && note.authors.length > 0 ? note.authors : null
-    )
-    const [category, setCategory] = useState(note && note.category)
-    const [state, setState] = useState(note && note.state)
-    const [notes, setNotes] = useState(note && note.note)
+    const defaultNoteState = note && {
+        title: note.title,
+        author: note.authors,
+        note: note.note,
+        state: note.state,
+        category: note.category,
+    }
+    const [noteState, setNoteState] = useNote(defaultNoteState)
     const [authorOptions, setAuthorOptions] = useCreateOptions(
         authors,
         'author'
@@ -136,74 +138,48 @@ export const SingleNote = () => {
 
     // Form handle state change
     const handleNameChange = (e) => {
-        setName(e.target.value)
+        const changes = { ...noteState, title: e.target.value }
+        setNoteState(changes)
         dispatchState({
             id: Number(noteId),
-            changes: {
-                title: e.target.value,
-                author,
-                notes,
-                state,
-                category,
-            },
+            changes: changes,
             dispatch,
         })
     }
     const handleAuthorChange = (e) => {
-        setAuthor(e.target.value)
+        const changes = { ...noteState, author: e.target.value }
+        setNoteState(changes)
         dispatchState({
             id: Number(noteId),
-            changes: {
-                title: name,
-                author: e.target.value,
-                notes,
-                state,
-                category,
-            },
+            changes: changes,
             dispatch,
         })
     }
     const handleCategoryChange = (e) => {
-        setCategory(e.target.value)
+        const changes = { ...noteState, category: e.target.value }
+        setNoteState(changes)
         dispatchState({
             id: Number(noteId),
-            changes: {
-                title: name,
-                author,
-                notes,
-                state,
-                category: e.target.value,
-            },
+            changes: changes,
             dispatch,
         })
     }
     const handleStateChange = (e) => {
-        setState(e.target.value.id)
+        const changes = { ...noteState, state: e.target.value.id }
+        setNoteState(changes)
         dispatchState({
             id: Number(noteId),
-            changes: {
-                title: name,
-                author,
-                notes,
-                state: e.target.value.id,
-                category,
-            },
+            changes: changes,
             dispatch,
         })
     }
     const handleNotesChange = (e) => {
-        const content = e.target.innerHTML
-        setNotes(content)
+        const changes = { ...noteState, note: e.target.innerHTML }
+        setNoteState(changes)
 
         dispatchState({
             id: Number(noteId),
-            changes: {
-                title: name,
-                author,
-                note: content,
-                state,
-                category,
-            },
+            changes: changes,
             dispatch,
         })
     }
@@ -278,13 +254,7 @@ export const SingleNote = () => {
     const retrySave = () => {
         dispatchState({
             id: Number(noteId),
-            changes: {
-                title: name,
-                author,
-                note: notes,
-                state,
-                category,
-            },
+            changes: noteState,
             dispatch,
         })
     }
@@ -321,21 +291,25 @@ export const SingleNote = () => {
                                 className="singleNote-name"
                                 type="text"
                                 onChange={handleNameChange}
-                                value={name}
+                                value={noteState.title}
                             ></Form.Control>
                         </div>
                         <SingleNoteMetadata>
                             <NoteListItemRow>
                                 <TagSelect
                                     onChange={handleAuthorChange}
-                                    value={author}
+                                    value={noteState.author}
                                     options={authorOptions}
                                     onCreate={createAuthorTag}
                                     onChangeInput={handleChangeInputAuthor}
                                 />
                                 <TagSelect
                                     onChange={handleCategoryChange}
-                                    value={category && [category]}
+                                    value={
+                                        noteState.category && [
+                                            noteState.category,
+                                        ]
+                                    }
                                     options={categoryOptions}
                                     onCreate={createCategoryTag}
                                     onChangeInput={handleChangeInputCategory}
@@ -345,8 +319,8 @@ export const SingleNote = () => {
                                 <TagSelect
                                     onChange={handleStateChange}
                                     value={{
-                                        id: state,
-                                        name: stateMap.get(state),
+                                        id: noteState.state,
+                                        name: stateMap.get(noteState.state),
                                     }}
                                     options={mapToArr(stateMap)}
                                     read={true}
@@ -355,7 +329,7 @@ export const SingleNote = () => {
                         </SingleNoteMetadata>
                         <div>
                             <ContentEditable
-                                value={notes}
+                                value={noteState.note}
                                 onChange={handleNotesChange}
                             />
                         </div>
