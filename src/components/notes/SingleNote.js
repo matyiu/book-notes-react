@@ -11,7 +11,6 @@ import {
 import {
     authorAdded,
     categoryAdded,
-    setTags,
     selectAllAuthors,
     selectAllCategories,
 } from '../../redux/tagsSlice'
@@ -187,43 +186,6 @@ export const SingleNote = () => {
         dispatch(noteDeleted(Number(noteId)))
         history.push('/')
     }
-
-    useEffect(async () => {
-        if (!note) {
-            const raw = await fetchWrapper.get(
-                'http://boonote.test:8000/api/notes/' + noteId
-            )
-            const res = await raw.json()
-
-            if (res.success) {
-                dispatch(setNotesRedux(res.data))
-            }
-        }
-    }, [])
-
-    useEffect(async () => {
-        if (categories.length === 0) {
-            const raw = await fetchWrapper.get(
-                'http://boonote.test:8000/api/user/categories'
-            )
-            const res = await raw.json()
-
-            if (res.success) {
-                dispatch(setTags({ category: res.data }))
-            }
-        }
-
-        if (authors.length === 0) {
-            const raw = await fetchWrapper.get(
-                'http://boonote.test:8000/api/user/authors'
-            )
-            const res = await raw.json()
-
-            if (res.success) {
-                dispatch(setTags({ author: res.data }))
-            }
-        }
-    }, [])
 
     // Redux handlers
     const createAuthorTag = (content) => {

@@ -9,11 +9,13 @@ import { NotesList } from '../components/notes/NotesList'
 import { Sidebar } from '../components/Sidebar'
 import { Toolbar } from '../components/Toolbar'
 import { setNotes as setNotesState } from '../redux/notesSlice'
+import { setTags } from '../redux/tagsSlice'
 
 export const Home = () => {
     // Redux Selectors
     const notesDefault = useSelector((status) => status.notes)
     const logged = useSelector((status) => status.auth.logged)
+    const tags = useSelector((state) => state.tags)
 
     // React State
     const [notes, setNotes] = useState(notesDefault)
@@ -160,18 +162,7 @@ export const Home = () => {
         } else {
             filteredNotes = notesDefault
         }
-
-        // setNotes(
-        //   orderBy[order.toLowerCase()](filteredNotes, orderType.toLowerCase())
-        // );
     }
-
-    // useEffect(() => {
-    //   if (firstRender.current) {
-    //     setNotes(orderBy["alphabetically"](notesDefault, "descending"));
-    //     firstRender.current = false;
-    //   }
-    // });
 
     const dispatch = useDispatch()
     useEffect(async () => {
@@ -189,11 +180,27 @@ export const Home = () => {
                 history.push('/login')
             }
         }
-    }, [])
 
-    // useEffect(() => {
-    //   handleFilter(currentFilter);
-    // }, [notesDefault]);
+        if (tags.author.length === 0 || tags.category.length === 0) {
+            const rawAuthors = await fetchWrapper.get(
+                'http://boonote.test:8000/api/user/authors'
+            )
+            const rawCategories = await fetchWrapper.get(
+                'http://boonote.test:8000/api/user/categories'
+            )
+            const authorsRes = await rawAuthors.json()
+            const categoriesRes = await rawCategories.json()
+
+            if (authorsRes.success && categoriesRes.success) {
+                dispatch(
+                    setTags({
+                        author: authorsRes.data,
+                        category: categoriesRes.data,
+                    })
+                )
+            }
+        }
+    }, [])
 
     return (
         <div id="homepage" ref={firstRender}>
