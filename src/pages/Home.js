@@ -95,14 +95,15 @@ export const Home = () => {
 
     // Event Handlers
     const handleSearchNotes = (e) => {
-        if (e.target.value.length === 0) {
-            handleFilter(currentFilter)
-            return
-        }
+        setNotes({
+            ...notesDefault,
+            data: notesDefault.data.filter((note) => {
+                const title = note.title.toLowerCase()
+                const searchTerm = e.target.value.toLowerCase()
 
-        setNotes(
-            notesDefault.filter((note) => note.name.startsWith(e.target.value))
-        )
+                return title.startsWith(searchTerm)
+            }),
+        })
     }
     const handleOrderByNotes = (order, type) => {
         setNotes(orderBy[order.toLowerCase()](notes, type.toLowerCase()))
@@ -179,14 +180,11 @@ export const Home = () => {
                             <Sidebar />
                         </Col>
                         <Col colNumber={9}>
-                            <Toolbar
-                                onOrder={handleOrderByNotes}
-                                onFilter={handleFilter}
-                            />
+                            <Toolbar onSearch={handleSearchNotes} />
                             {isDataLoaded() ? (
                                 <NotesList
                                     notesDefault={notesDefault}
-                                    notes={notesDefault}
+                                    notes={notes}
                                 />
                             ) : (
                                 'Loading...'

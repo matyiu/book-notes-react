@@ -3,9 +3,10 @@ import { InputTextIcon } from '../elements/Form'
 import Search from '../icons/Search'
 import { darkTheme } from '../../variables/colors'
 
-const SearchNotes = (props) => {
+const SearchNotes = ({ onSearch }) => {
     return (
         <InputTextIcon
+            onChange={onSearch}
             placeholder="Search notes"
             icon={
                 <Search

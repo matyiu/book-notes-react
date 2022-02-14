@@ -19,12 +19,7 @@ const RowSpaceBetween = styled(Row)`
 `
 
 export const Toolbar = (props) => {
-    const { onOrder, onFilter } = props
-
-    const [openForm, setOpenForm] = useState(false)
-
-    const handleClosedCreateForm = () => setOpenForm(false)
-    const handleCreateForm = () => setOpenForm(true)
+    const { onSearch } = props
 
     return (
         <div className="toolbar">
@@ -32,7 +27,7 @@ export const Toolbar = (props) => {
                 <RowSpaceBetween>
                     <ColFlex>
                         <AddNote />
-                        <SearchNotes />
+                        <SearchNotes onSearch={onSearch} />
                     </ColFlex>
                     <Col>
                         <Select
@@ -54,7 +49,6 @@ export const Toolbar = (props) => {
                     </Col>
                 </RowSpaceBetween>
             </Container>
-            {openForm && <AddNoteForm callbackClose={handleClosedCreateForm} />}
         </div>
     )
 }
