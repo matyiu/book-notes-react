@@ -50,7 +50,7 @@ export const logIn = createAsyncThunk(
                 }
             )
 
-            return await res.json()
+            return res
         } catch (error) {
             const errorData = {
                 ...error,
@@ -68,7 +68,7 @@ export const logIn = createAsyncThunk(
 
 export const logout = createAsyncThunk('logout', async () => {
     const res = await fetchWrapper.delete('http://boonote.test:8000/logout')
-    return await res.json()
+    return res
 })
 
 export const signUp = createAsyncThunk(
@@ -82,7 +82,7 @@ export const signUp = createAsyncThunk(
                 }
             )
 
-            return await res.json()
+            return res
         } catch (error) {
             return rejectWithValue(error)
         }
@@ -100,7 +100,7 @@ export const updateUser = createAsyncThunk(
                 }
             )
 
-            return await res.json()
+            return res
         } catch (error) {
             return rejectWithValue(error)
         }

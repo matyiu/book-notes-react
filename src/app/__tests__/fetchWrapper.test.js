@@ -7,17 +7,16 @@ describe('fetchWrapper retry', () => {
     })
 
     it('Calls API once on successful response', async () => {
-        fetch.mockResponse({
-            success: true,
-        })
-
-        try {
-            await fetchWrapper.get('http://localhost', {
-                maxRetries: 3,
+        fetch.mockResponse(
+            JSON.stringify({
+                success: true,
             })
-        } catch (error) {
-            expect(fetch).toHaveBeenCalledTimes(1)
-        }
+        )
+
+        await fetchWrapper.get('http://localhost', {
+            maxRetries: 3,
+        })
+        expect(fetch).toHaveBeenCalledTimes(1)
     })
 
     it('Calls API once on reject', async () => {
@@ -75,6 +74,34 @@ describe('fetchWrapper retry', () => {
             })
         } catch (error) {
             expect(fetch).toHaveBeenCalledTimes(3)
+        }
+    })
+})
+
+describe('Response', () => {
+    beforeEach(() => {
+        fetch.resetMocks()
+    })
+
+    it("It doesn't fails on null response body", async () => {
+        fetch.mockResponse(null)
+
+        try {
+            const response = await fetchWrapper.get('http://localhost')
+            expect(response).toEqual({})
+        } catch (error) {
+            expect(error).not.toBeTruthy()
+        }
+    })
+
+    it("It doesn't fails on empty string response body", async () => {
+        fetch.mockResponse('')
+
+        try {
+            const response = await fetchWrapper.get('http://localhost')
+            expect(response).toEqual({})
+        } catch (error) {
+            expect(error).not.toBeTruthy()
         }
     })
 })

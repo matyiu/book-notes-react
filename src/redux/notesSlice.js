@@ -95,7 +95,7 @@ export const noteUpdated = createAsyncThunk(
             const note = getState().notes.data.find(
                 (note) => note.id === noteData.id
             )
-            const raw = await fetchWrapper.put(
+            const res = await fetchWrapper.put(
                 'http://boonote.test:8000/api/notes/' + noteData.id,
                 {
                     body: JSON.stringify({
@@ -105,7 +105,7 @@ export const noteUpdated = createAsyncThunk(
                 }
             )
 
-            return await raw.json()
+            return res
         } catch (error) {
             return rejectWithValue(error)
         }

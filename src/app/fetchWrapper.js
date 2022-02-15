@@ -8,6 +8,12 @@ const handleErrors = (e) => {
     }
 }
 
+const parseBody = async (res) => {
+    const text = await res.text()
+
+    return text.length ? JSON.parse(text) : {}
+}
+
 const sendRequest = async (url, options = {}, retryCount = 1) => {
     const { maxRetries = 0, headers, ...restOptions } = options
 
@@ -23,9 +29,9 @@ const sendRequest = async (url, options = {}, retryCount = 1) => {
         })
 
         if (raw.status >= 200 && raw.status <= 299) {
-            return raw
+            return await parseBody(raw)
         } else {
-            return Promise.reject(await raw.json())
+            return Promise.reject(await parseBody(raw))
         }
     } catch (e) {
         if (retryCount < maxRetries) {
