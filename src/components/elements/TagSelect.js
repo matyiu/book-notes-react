@@ -13,7 +13,8 @@ const TagSelectInput = styled.div`
 `
 
 export const TagSelect = (props) => {
-    const { options, value, onChange, read, onChangeInput, onCreate } = props // Props
+    const { options, value, onChange, read, onChangeInput, onCreate, name } =
+        props // Props
 
     // Event handlers
     const handleOptionChange = (e, option) => {
@@ -23,6 +24,7 @@ export const TagSelect = (props) => {
         onChange &&
             onChange({
                 target: {
+                    name,
                     value: {
                         name: optionValue,
                         id: option.id,

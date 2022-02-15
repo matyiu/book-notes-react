@@ -36,8 +36,21 @@ export const mockNoteSlice = {
             id: 1,
             title: 'Title 1',
             note: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis quia quam sint magni ipsum officia voluptates incidunt commodi repudiandae voluptatum iusto ipsam magnam modi placeat eligendi laudantium nobis, veniam dolorum.',
-            category: 1,
-            authors: [1, 2],
+            category: {
+                id: 1,
+                name: 'Category 1',
+            },
+            authors: [
+                {
+                    id: 1,
+                    name: 'Author 1',
+                },
+                {
+                    id: 2,
+                    name: 'Author 2',
+                },
+            ],
+            state: 1,
         },
     ],
 }

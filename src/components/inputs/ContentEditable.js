@@ -1,11 +1,17 @@
 import React, { useRef } from 'react'
 
-export default ({ value, onChange }) => {
+export default ({ value, onChange, name }) => {
     // TODO: strip dangerous html tags
     const defaultValue = useRef(value)
 
     const handleChange = (e) => {
-        onChange(e)
+        onChange({
+            ...e,
+            target: {
+                ...e.target,
+                name,
+            },
+        })
     }
 
     return (

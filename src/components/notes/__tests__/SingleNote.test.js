@@ -12,6 +12,7 @@ import notesSlice from '../../../redux/notesSlice'
 import authSlice from '../../../redux/authSlice'
 import { Route } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
+import stateMap from '../../../app/stateMap'
 
 jest.mock('../../../app/debounce.js', () => jest.fn((fn) => fn))
 
@@ -36,7 +37,7 @@ const renderSingleNote = () => {
     )
 }
 
-describe('Note Change State', () => {
+describe('Save State', () => {
     const successRes = JSON.stringify({
         success: true,
         message: '',
@@ -91,5 +92,49 @@ describe('Note Change State', () => {
         expect(
             await screen.findByRole('button', { name: 'Try again' })
         ).toBeTruthy()
+    })
+})
+
+describe('Change Handler', () => {
+    beforeEach(() => {
+        renderSingleNote()
+    })
+
+    it('Changes title', async () => {
+        const noteData = mockNoteSlice.data[0]
+        const title = screen.getByDisplayValue(noteData.title)
+        userEvent.type(title, ' Changed')
+        expect(await screen.findByDisplayValue(/changed/i)).toBeTruthy()
+    })
+
+    it('Changes author', async () => {
+        const author = screen.getByText('Author 1')
+        userEvent.click(author)
+        const option = await screen.findByText('Author 2')
+        userEvent.click(option)
+        expect(await screen.findByText('Author 2')).toBeTruthy()
+    })
+
+    it('Changes category', async () => {
+        const category = screen.getByText('Category 1')
+        userEvent.click(category)
+        const option = await screen.findByText('Category 2')
+        userEvent.click(option)
+        expect(await screen.findByText('Category 2')).toBeTruthy()
+    })
+
+    it('Changes state', async () => {
+        const state = screen.getByText(stateMap.get(1))
+        userEvent.click(state)
+        const option = await screen.findByText(stateMap.get(2))
+        userEvent.click(option)
+        expect(await screen.findByText(stateMap.get(2))).toBeTruthy()
+    })
+
+    it('Changes note content', async () => {
+        const noteData = mockNoteSlice.data[0]
+        const content = screen.getByText(noteData.note)
+        userEvent.type(content, ' Content Changes')
+        expect(await screen.findByText(/content changes/i)).toBeTruthy()
     })
 })
